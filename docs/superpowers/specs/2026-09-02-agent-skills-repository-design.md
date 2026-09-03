@@ -33,7 +33,7 @@ The repository will use the MIT License, matching Peter Moreno's existing public
 
 ## Q-C-Code package
 
-Copy the current `C:\Users\peter\.claude\skills\qccode` tree without copying the timestamped backup. Preserve its Claude-specific behavior and metadata, including its hierarchical sub-agent workflows and `AskUserQuestion` conventions.
+Copy the current `~/.claude/skills/qccode` tree without copying the timestamped backup. Preserve its Claude-specific behavior and metadata, including its hierarchical sub-agent workflows and `AskUserQuestion` conventions.
 
 Do not claim that this package is natively portable to Codex. Its `argument-hint` frontmatter and Claude tool names are intentionally Claude-specific. The README will state that limitation clearly.
 
