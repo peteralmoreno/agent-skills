@@ -1,0 +1,7 @@
+interface:
+  display_name: "Q-C-Code"
+  short_description: "Claude Code QRSPI workflow with saved artifacts, stage workflows, and coordinator-gated decisions"
+  default_prompt: "Use /qccode, /ccode, $qccode, or $ccode to run QRSPI in Claude Code. Q-C-Code saves each run under .qccode/active/<run-id>/, executes Questions, Research, Design, Structure, Plan, Worktree, and Implement stages through workflow files, and keeps user decisions with the coordinator. Use qccode continue <keyword> to resume an active flow, or qccode clear to clean up active flows."
+
+policy:
+  allow_implicit_invocation: true
