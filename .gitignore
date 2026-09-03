@@ -1,0 +1,12 @@
+.env*
+.qccode/
+*backup*/
+sessions/
+history/
+node_modules/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
