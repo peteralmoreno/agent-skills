@@ -1,0 +1,4 @@
+interface:
+  display_name: "PRISM Spec Framework"
+  short_description: "Turn vague engineering prompts into traceable specifications"
+  default_prompt: "Use PRISM to build or review a software specification with explicit problems, requirements, invariants, solution decisions, measures, and traceability."
