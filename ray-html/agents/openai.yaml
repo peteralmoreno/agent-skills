@@ -1,0 +1,4 @@
+interface:
+  display_name: "RAY HTML — Intent Coach"
+  short_description: "Draft RAY intent in HTML or Markdown"
+  default_prompt: "Use ray-html to help me create or review a RAY artifact. Accept the format I provide, default to a static HTML artifact, and honor my requested output format."

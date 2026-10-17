@@ -52,6 +52,40 @@ It identifies which PRISM requirements are delivered now or later, breaks the cu
 
 Use `/lens` in Claude Code, `$lens` in Codex, or ask your agent to use the `lens` skill. LENS can be used independently with any approved PRISM spec; it does not require an earlier RAY conversation.
 
+## HTML-first companions (format-flexible)
+
+The original `ray`, `prism`, and `lens` remain **Markdown/text-first**. Their standalone HTML-first companions are **`ray-html`**, **`prism-html`**, and **`lens-html`**. They retain exactly the same workflow and approval rules; only the default presentation is different.
+
+| Stage | Text/Markdown-first | HTML-first | Both accept / can emit |
+| --- | --- | --- | --- |
+| Intent | [`ray`](ray/) | [`ray-html`](ray-html/) | HTML, Markdown, prose, Jira text |
+| Specification | [`prism`](prism/) | [`prism-html`](prism-html/) | HTML, Markdown, source content |
+| Delivery plan | [`lens`](lens/) | [`lens-html`](lens-html/) | HTML, Markdown, source PRISM |
+
+Examples:
+
+```text
+/ray-html Design an event notification feature
+/prism-html specs/event-notifications.md --output HTML
+/prism spec.html --output Markdown
+/lens-html specs/event-notifications-prism.md --output plans/event-lens.md
+/lens specs/event-notifications-prism.html --output HTML
+```
+
+Explicit requested output wins, then the destination or host format contract, then the skill's default. **Input HTML does not force output HTML**, and HTML is not an implementation/approval shortcut. HTML files are static, accessible documents with stable semantic `data-*` markers; the existing RAY and LENS Markdown validators do not read HTML. See the [format interoperability guide](docs/format-interoperability.md).
+
+Install any HTML variant by copying its entire folder into your agent's skill directory (e.g. `~/.claude/skills/prism-html/` or `~/.agents/skills/lens-html/`). No sibling skill installation is required.
+
+HTML contract checks (Python standard library / Node built-ins):
+
+```bash
+python -m unittest discover -s tests -p 'test_html_contract.py' -v
+node --test tests/html-format-skills.test.mjs
+python scripts/validate-semantic-html.py ray-html/assets/intent-example.html --skill ray
+```
+
+The HTML checker verifies limited structural metadata; it does not evaluate engineering quality, convert arbitrary HTML/Jira ADF, or substitute for the stage-specific agent's review.
+
 ## Installation
 
 Clone the repository:

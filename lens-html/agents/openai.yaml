@@ -1,0 +1,4 @@
+interface:
+  display_name: "LENS HTML — Delivery Planner"
+  short_description: "Plan delivery in HTML or Markdown"
+  default_prompt: "Use lens-html to help me create or review a LENS artifact. Accept the format I provide, default to a static HTML artifact, and honor my requested output format."
