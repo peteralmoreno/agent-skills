@@ -26,7 +26,7 @@ It drafts Jira-ready intents, offers targeted recommendations and clarifications
 
 Use `/ray` in Claude Code, `$ray` in Codex, or ask your agent to use the `ray` skill. Each Angle decision has its own commitment grade: **1 — Consider**, **2 — Prefer**, **3 — Strong**, or **4 — Required**. Only grade 4 is binding unless the requester explicitly authorizes a change; preferences must never silently become requirements. Unknowns and an open Angle are valid.
 
-The conceptual progression is **RAY → PRISM → engineering execution**: clarify intent, develop a specification when requested, then execute under separate authorization. Each skill remains independently usable.
+The conceptual progression is **RAY → PRISM → LENS → engineering execution**: clarify intent, establish the specification, focus it into one delivery plan, then execute under separate authorization. Each skill remains independently usable.
 
 ### PRISM
 
@@ -39,6 +39,18 @@ Problem -> Requirements -> Invariants -> Solution -> Measures
 It can explain the framework, build a specification, or review an existing specification. Its output connects requirements to protected invariants, solution decisions, and objective evidence through explicit traceability.
 
 PRISM uses portable skill metadata and can be installed in Claude Code, Codex, or another runtime that supports the Agent Skills format.
+
+### LENS
+
+[`lens`](lens/) focuses one approved PRISM specification into a delivery plan using four sections:
+
+```text
+Limits -> Execution plan -> Needs -> Signals
+```
+
+It identifies which PRISM requirements are delivered now or later, breaks the current increment into dependency-ordered work units, surfaces blockers, and maps planned verification back to PRISM measures. It produces **one standalone LENS Markdown plan** referencing the authoritative PRISM spec and stops before code changes, branches, or PRs.
+
+Use `/lens` in Claude Code, `$lens` in Codex, or ask your agent to use the `lens` skill. LENS can be used independently with any approved PRISM spec; it does not require an earlier RAY conversation.
 
 ## Installation
 
@@ -79,7 +91,19 @@ Install PRISM for Codex:
 Copy-Item -Recurse -Force prism "$env:USERPROFILE\.codex\skills\prism"
 ```
 
-For runtimes that recognize the cross-runtime skills directory, install PRISM under `~/.agents/skills/prism` and RAY under `~/.agents/skills/ray`.
+Install LENS for Claude Code:
+
+```powershell
+Copy-Item -Recurse -Force lens "$env:USERPROFILE\.claude\skills\lens"
+```
+
+Install LENS for Codex:
+
+```powershell
+Copy-Item -Recurse -Force lens "$env:USERPROFILE\.agents\skills\lens"
+```
+
+For runtimes that recognize the cross-runtime skills directory, install PRISM under `~/.agents/skills/prism`, RAY under `~/.agents/skills/ray`, and LENS under `~/.agents/skills/lens`.
 
 Review an existing installation before using `-Force`; it can replace files with the same names.
 
@@ -88,13 +112,19 @@ Review an existing installation before using `-Force`; it can replace files with
 The repository tests use only Node.js built-ins:
 
 ```powershell
-node --test tests/qccode-package.test.mjs tests/repository-safety.test.mjs prism/tests/skill-contract.test.mjs ray/tests/skill-contract.test.mjs
+node --test tests/qccode-package.test.mjs tests/repository-safety.test.mjs prism/tests/skill-contract.test.mjs ray/tests/skill-contract.test.mjs lens/tests/skill-contract.test.mjs lens/tests/validator.test.mjs
 ```
 
 Validate the RAY structural parser with Python:
 
 ```powershell
 python -m unittest discover -s ray/tests -v
+```
+
+Validate a LENS document and its local PRISM source:
+
+```powershell
+node lens/scripts/validate-plan.mjs plans/example-lens.md --prism specs/example-prism.md
 ```
 
 Validate PRISM with Codex's bundled skill validator:
