@@ -1,0 +1,4 @@
+interface:
+  display_name: "LENS — Delivery Planning"
+  short_description: "Focus a PRISM spec into a scoped plan"
+  default_prompt: "Use LENS to turn the attached or referenced PRISM specification into one scoped, ordered, verifiable delivery plan. Draft first, surface meaningful blockers, and stop before implementation."
