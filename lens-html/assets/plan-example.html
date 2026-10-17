@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LENS — Domain Event Notification Delivery</title>
+<style>
+:root { color-scheme: light dark; --bg:#f1f4f8; --paper:#fff; --ink:#182232; --muted:#546175; --line:#d7dce6; --accent:#b8323a; --accent-soft:#fff0f1; --hint:#eff5fc; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0c1119; --paper:#161e2a; --ink:#e8eef7; --muted:#a4b0c0; --line:#344052; --accent:#ff7d88; --accent-soft:#2c1d29; --hint:#172b3e; } }
+* {box-sizing:border-box} html {scroll-behavior:smooth} body {margin:0; font:16px/1.55 system-ui,-apple-system,Segoe UI,Arial,sans-serif; background:var(--bg);color:var(--ink)}
+.wrap {max-width:940px;margin:36px auto;padding:0 18px 48px} main {background:var(--paper);padding:clamp(22px,4vw,52px);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 40px #00000011}
+header {padding-bottom:16px;margin-bottom:28px;border-bottom:1px solid var(--line)}
+.eyebrow {text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:800;font-size:.75rem;margin:0}
+h1 {font-size:clamp(2rem,4vw,2.8rem);letter-spacing:-.045em;line-height:1.1;margin:10px 0} h2 {font-size:1.2rem;margin:0 0 12px} h3 {font-size:1rem;margin:18px 0 6px} p {margin:8px 0 12px} strong {font-weight:700}
+.subtitle,.meta,.note {color:var(--muted)} section.block {padding:22px 0;border-bottom:1px solid var(--line)} section.block:last-of-type {border-bottom:0}
+.kicker {display:inline-flex;border-radius:8px;align-items:center;justify-content:center;min-width:34px;height:34px;padding:0 8px;background:var(--accent-soft);color:var(--accent);margin-right:8px;font-weight:800;font-size:.94rem}
+.pill {display:inline-block;font-size:.78rem;font-weight:750;border:1px solid var(--line);border-radius:99px;padding:2px 9px;margin-right:8px;white-space:nowrap}
+.pill.strong {background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.bullets {padding-left:22px} li {margin:8px 0} li[data-grade] {padding:8px 0} table {width:100%;border-collapse:collapse;font-size:.92rem;text-align:left;margin:12px 0 8px}
+th,td {border-bottom:1px solid var(--line);padding:11px 9px;vertical-align:top} th {color:var(--muted);font-size:.8rem;letter-spacing:.02em;text-transform:uppercase}
+code {font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--hint);border-radius:4px;padding:1px 5px} .note {font-size:.88rem;margin-top:16px}
+.metadata {display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:22px}
+.metadata div {background:var(--hint);padding:9px 12px;border-radius:8px;min-width:0} dt {color:var(--muted);font-size:.76rem} dd {margin:0;overflow-wrap:anywhere;font-weight:600;font-size:.91rem}
+.callout {background:var(--hint);padding:12px 16px;border-left:3px solid var(--accent);border-radius:4px}
+.table-scroll {overflow-x:auto} .placeholder {color:var(--muted);font-style:italic}
+footer {color:var(--muted);font-size:.77rem;margin:16px 8px 0;text-align:center}
+@media(max-width:650px){.wrap{margin:0 auto;padding:0}main{border:0;border-radius:0;padding:24px 18px}th,td{padding:9px 6px;font-size:.8rem}.metadata{grid-template-columns:1fr 1fr} h1{font-size:2rem} footer{padding:0 14px 20px}}
+@media print { :root{color-scheme:light} body{background:white;color:#000} .wrap{margin:0;padding:0;max-width:100%}main{border:0;box-shadow:none;padding:0} section.block{break-inside:avoid}tr{break-inside:avoid}a{color:#000}footer{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<main data-skill="lens" data-format="lens/v1" data-status="draft" data-source-spec="specs/event-notifications-prism.md" data-source-status="approved" data-delivery-target="initial-publication">
+<header><p class="eyebrow">LENS · Delivery Plan</p><h1>Domain event notification delivery</h1>
+<p class="subtitle">Limits · Execution plan · Needs · Signals</p>
+<dl class="metadata"><div><dt>Source PRISM</dt><dd><code>specs/event-notifications-prism.md</code></dd></div>
+<div><dt>Source status</dt><dd>Approved (illustrative)</dd></div>
+<div><dt>Delivery target</dt><dd>Initial publication</dd></div><div><dt>Plan status</dt><dd>Draft — awaiting approval</dd></div></dl></header>
+<section class="block" data-lens-section="limits"><h2><span class="kicker">L</span> Limits</h2>
+<h3>Now</h3><p>New event publishing and compatibility checks for existing consumers.</p><h3>Later</h3><p>Migration of existing consumers, planned as another increment.</p><h3>Outside this delivery</h3><p>Unrelated publisher redesign.</p>
+<h3>Requirement coverage</h3><div class="table-scroll"><table><thead><tr><th>PRISM ID</th><th>Delivery</th><th>Reason / next step</th></tr></thead><tbody><tr data-requirement="R1" data-delivery="Now"><td><code>R1</code></td><td>Now</td><td>Event publication in W1 and W2.</td></tr>
+<tr data-requirement="R2" data-delivery="Later"><td><code>R2</code></td><td>Later</td><td>Consumer migration in a separate delivery increment; owner to be confirmed.</td></tr></tbody></table></div></section>
+<section class="block" data-lens-section="execution"><h2><span class="kicker">E</span> Execution plan</h2>
+<div class="table-scroll"><table><thead><tr><th>Work ID</th><th>Deliverable / action</th><th>Depends on</th><th>PRISM links</th><th>Done when</th></tr></thead><tbody><tr data-work-id="W1" data-depends-on="None" data-prism-links="R1 I1 S1"><td><code>W1</code></td><td>Establish the approved publication path</td><td>None</td><td>R1, I1, S1</td><td>Events are available to new subscribers with existing behavior preserved.</td></tr>
+<tr data-work-id="W2" data-depends-on="W1" data-prism-links="R1 I1"><td><code>W2</code></td><td>Implement event and compatibility checks</td><td>W1</td><td>R1, I1</td><td>Checks exercise the event publication and existing-consumer contracts.</td></tr></tbody></table></div></section>
+<section class="block" data-lens-section="needs"><h2><span class="kicker">N</span> Needs</h2>
+<div class="table-scroll"><table><thead><tr><th>Need ID</th><th>Type</th><th>Description</th><th>Resolve before</th></tr></thead><tbody><tr data-need-id="N1" data-need-type="Question"><td>N1</td><td>Question</td><td>Who owns the deferred consumer migration increment?</td><td>Before increment 2 planning</td></tr></tbody></table></div></section>
+<section class="block" data-lens-section="signals"><h2><span class="kicker">S</span> Signals</h2>
+<div class="table-scroll"><table><thead><tr><th>Work ID</th><th>PRISM measures</th><th>Evidence to collect</th></tr></thead><tbody><tr data-work-id="W1" data-measures="M1"><td>W1</td><td>M1</td><td>Collect integration test evidence for publication to new subscribers.</td></tr>
+<tr data-work-id="W2" data-measures="M1 M2"><td>W2</td><td>M1, M2</td><td>Collect publication and existing-consumer compatibility test output.</td></tr></tbody></table></div></section>
+<section class="block" data-lens-section="handoff"><h2>Handoff</h2>
+<p><strong>Readiness:</strong> Draft — awaiting approval.</p>
+<p><strong>Next step:</strong> After separate execution authorization, inspect publisher interfaces before W1.</p>
+<p><strong>Remaining blockers:</strong> None established for the initial increment; N1 remains a question for later.</p>
+<p class="callout"><strong>Authority:</strong> The referenced PRISM spec defines the binding requirements and invariants. This plan does not authorize implementation, Git changes or deployment.</p></section>
+</main>
+<footer>Fictional, non-approved LENS plan. Source PRISM details are illustrative.</footer>
+</div>
+</body>
+</html>

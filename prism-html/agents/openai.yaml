@@ -1,0 +1,4 @@
+interface:
+  display_name: "PRISM HTML — Spec Writer"
+  short_description: "Write PRISM specs in HTML or Markdown"
+  default_prompt: "Use prism-html to help me create or review a PRISM artifact. Accept the format I provide, default to a static HTML artifact, and honor my requested output format."

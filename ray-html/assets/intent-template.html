@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAY — Engineering Intent</title>
+<style>
+:root { color-scheme: light dark; --bg:#f1f4f8; --paper:#fff; --ink:#182232; --muted:#546175; --line:#d7dce6; --accent:#b8323a; --accent-soft:#fff0f1; --hint:#eff5fc; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0c1119; --paper:#161e2a; --ink:#e8eef7; --muted:#a4b0c0; --line:#344052; --accent:#ff7d88; --accent-soft:#2c1d29; --hint:#172b3e; } }
+* {box-sizing:border-box} html {scroll-behavior:smooth} body {margin:0; font:16px/1.55 system-ui,-apple-system,Segoe UI,Arial,sans-serif; background:var(--bg);color:var(--ink)}
+.wrap {max-width:940px;margin:36px auto;padding:0 18px 48px} main {background:var(--paper);padding:clamp(22px,4vw,52px);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 40px #00000011}
+header {padding-bottom:16px;margin-bottom:28px;border-bottom:1px solid var(--line)}
+.eyebrow {text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:800;font-size:.75rem;margin:0}
+h1 {font-size:clamp(2rem,4vw,2.8rem);letter-spacing:-.045em;line-height:1.1;margin:10px 0} h2 {font-size:1.2rem;margin:0 0 12px} h3 {font-size:1rem;margin:18px 0 6px} p {margin:8px 0 12px} strong {font-weight:700}
+.subtitle,.meta,.note {color:var(--muted)} section.block {padding:22px 0;border-bottom:1px solid var(--line)} section.block:last-of-type {border-bottom:0}
+.kicker {display:inline-flex;border-radius:8px;align-items:center;justify-content:center;min-width:34px;height:34px;padding:0 8px;background:var(--accent-soft);color:var(--accent);margin-right:8px;font-weight:800;font-size:.94rem}
+.pill {display:inline-block;font-size:.78rem;font-weight:750;border:1px solid var(--line);border-radius:99px;padding:2px 9px;margin-right:8px;white-space:nowrap}
+.pill.strong {background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.bullets {padding-left:22px} li {margin:8px 0} li[data-grade] {padding:8px 0} table {width:100%;border-collapse:collapse;font-size:.92rem;text-align:left;margin:12px 0 8px}
+th,td {border-bottom:1px solid var(--line);padding:11px 9px;vertical-align:top} th {color:var(--muted);font-size:.8rem;letter-spacing:.02em;text-transform:uppercase}
+code {font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--hint);border-radius:4px;padding:1px 5px} .note {font-size:.88rem;margin-top:16px}
+.metadata {display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:22px}
+.metadata div {background:var(--hint);padding:9px 12px;border-radius:8px;min-width:0} dt {color:var(--muted);font-size:.76rem} dd {margin:0;overflow-wrap:anywhere;font-weight:600;font-size:.91rem}
+.callout {background:var(--hint);padding:12px 16px;border-left:3px solid var(--accent);border-radius:4px}
+.table-scroll {overflow-x:auto} .placeholder {color:var(--muted);font-style:italic}
+footer {color:var(--muted);font-size:.77rem;margin:16px 8px 0;text-align:center}
+@media(max-width:650px){.wrap{margin:0 auto;padding:0}main{border:0;border-radius:0;padding:24px 18px}th,td{padding:9px 6px;font-size:.8rem}.metadata{grid-template-columns:1fr 1fr} h1{font-size:2rem} footer{padding:0 14px 20px}}
+@media print { :root{color-scheme:light} body{background:white;color:#000} .wrap{margin:0;padding:0;max-width:100%}main{border:0;box-shadow:none;padding:0} section.block{break-inside:avoid}tr{break-inside:avoid}a{color:#000}footer{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<main data-skill="ray" data-format="ray/v1" data-status="draft">
+<header><p class="eyebrow">Engineering Intent · RAY</p><h1>Intent</h1>
+<p class="subtitle">A starting position for a specification, not a final design.</p></header>
+<section class="block" data-ray-field="result" aria-labelledby="result-heading">
+<h2 id="result-heading"><span class="kicker">R</span> Result</h2><p><span class="placeholder">Desired observable outcome and beneficiary</span></p></section>
+<section class="block" data-ray-field="angle" aria-labelledby="angle-heading">
+<h2 id="angle-heading"><span class="kicker">A</span> Angle</h2>
+<p class="meta">Directions are graded by commitment, not confidence. A strong idea can still be challenged.</p><p data-angle="open">Open — no early decisions yet.</p></section>
+<section class="block" data-ray-field="why" aria-labelledby="why-heading">
+<h2 id="why-heading"><span class="kicker">Y</span> Why</h2><p><span class="placeholder">Observed problem or opportunity, affected parties, consequences</span></p></section>
+</main>
+<footer>Proposed RAY serialization · Jira ADF requires a separate adapter.</footer>
+</div>
+</body>
+</html>
