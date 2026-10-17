@@ -53,6 +53,17 @@ Run the skill tests from the repository root:
 node --test lens/tests/*.test.mjs
 ```
 
+## What to put in each section
+
+| Section | Write this | Avoid this |
+| --- | --- | --- |
+| **Limits** | Now/Later/Outside plus a reason and destination for every `R#` | Removing a PRISM requirement by calling it out of scope |
+| **Execution plan** | Small `W#` outcomes, dependencies, PRISM links, and observable completion | Line-by-line code instructions or invented file paths |
+| **Needs** | Real blockers, risks, questions, and resolution checkpoints | An obligatory but meaningless risk register |
+| **Signals** | Future test/demo/metric evidence mapped from each `W#` to `M#` | Claiming implementation tests already passed |
+
+**Start with the [practical, annotated authoring guide](references/guide.md)** for a fully worked Kafka example, decision notes, good/bad wording, and a one-minute readiness checklist. The [plan template](assets/plan-template.md) has removable HTML authoring prompts; omit these comments from a completed plan.
+
 ## Details
 
 - [Human authoring guide](references/guide.md)

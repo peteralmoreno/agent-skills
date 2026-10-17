@@ -39,7 +39,7 @@ If command invocation isn't supported in the host, behave the same when the user
 4. **Define E — Execution plan.** Break in-scope work into small, outcome-oriented work units `W1`, `W2`, ... with dependencies, relevant PRISM R/I/S IDs, and completion conditions. Order by prerequisites, not arbitrary calendar dates. Mark possible parallel work only when dependencies and ownership allow it. Propose concrete file touchpoints only when actually known.
 5. **Define N — Needs.** Record unresolved prerequisites, risks, decisions, approval checkpoints, and relevant assumptions with IDs `N1`, `N2`, ... . Distinguish **Blocker** from **Risk** and **Question**; say when the issue must be resolved. If a hard spec decision is missing, ask rather than inventing it.
 6. **Define S — Signals.** For each work unit, specify intended verification evidence mapped to PRISM M# and relevant R/I#. If PRISM lacks a necessary measure, flag an upstream gap; never fabricate acceptance thresholds. A plan describes future evidence, not tests already passed.
-7. **Coach, don't interrogate.** Present a useful draft and up to three targeted improvements/questions when the input permits. Ask one high-impact question at a time if the user is engaging interactively. Avoid re-asking what the spec already settles.
+7. **Coach, don't interrogate.** Use the good/weak examples and practical notes in `references/guide.md`: explain non-obvious scope splits, write observable `Done when` conditions, distinguish a blocker from a risk, and identify specific future evidence rather than vague "tests pass" claims. Present a useful draft and up to three targeted improvements/questions when the input permits. Ask one high-impact question at a time if the user is engaging interactively. Avoid re-asking what the spec already settles.
 8. **Check readiness and handoff.** Confirm the plan is source-linked, internally ordered, covers all requirements, accounts for invariants, has realistic evidence, and leaves no unowned blocking decision. Ask for approval. Only after approval mark `status: approved` and deliver `plans/<short-slug>-lens.md` (or the user's chosen location). Include a short handoff section inside that same file; don't generate a second handoff artifact.
 
 ## Output contract
@@ -53,7 +53,7 @@ Use the canonical Markdown document in `assets/plan-template.md`. Keep these sec
 5. `## S — Signals` — work ID, PRISM M# links, planned validation evidence. No fabricated PASS/FAIL results.
 6. `## Handoff` — first authorized-next-step recommendation, readiness, remaining blockers, and the source reference. This is **context, not execution authorization**.
 
-The document should be complete enough for a fresh agent to begin, *once that agent is separately authorized to execute*. It should not copy PRISM wholesale. Do not claim success based solely on syntax validation.
+The document should be complete enough for a fresh agent to begin, *once that agent is separately authorized to execute*. It should not copy PRISM wholesale. Include brief, meaningful reasons for non-obvious scope or sequencing choices instead of adding extra documents. The template contains HTML authoring comments: **strip them from finalized LENS artifacts**. Do not claim success based solely on syntax validation.
 
 ## Readiness policy
 

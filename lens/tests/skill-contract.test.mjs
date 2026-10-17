@@ -40,3 +40,23 @@ test('LENS includes a PRISM mapping, worked examples, rubric, and mechanical che
   assert.match(read('references/review-rubric.md'), /Ready for handoff/);
   assert.ok(fs.existsSync(path.join(root,'scripts/validate-plan.mjs')));
 });
+
+
+test('LENS practical guide teaches meaningful planning decisions rather than duplicating PRISM', () => {
+  const guide = read('references/guide.md');
+  const template = read('assets/plan-template.md');
+  for (const text of [
+    'Quick start for an author or agent',
+    'A worked example: notification expansion',
+    'Why these notes matter',
+    'Product scope ≠ delivery scope',
+    'Good coaching: recommendations and questions',
+    'A one-minute review before handoff',
+  ]) {
+    assert.ok(guide.includes(text), `Missing practical guidance: ${text}`);
+  }
+  assert.match(guide, /approved plan is not authorization to execute/i);
+  assert.match(template, /Delete HTML comments before handing off/);
+  assert.match(template, /source_status: unknown/);
+  assert.match(read('SKILL.md'), /strip them from finalized LENS artifacts/);
+});
