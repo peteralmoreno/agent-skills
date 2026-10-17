@@ -1,0 +1,4 @@
+interface:
+  display_name: "RAY — Intent Coach"
+  short_description: "Co-author a Jira story intent before PRISM"
+  default_prompt: "Help me write or improve a RAY intent for a Jira engineering story. Draft first, suggest improvements, and ask only the most useful clarifying questions."
