@@ -63,7 +63,7 @@ def read_document(path):
 
 
 def proof_ids(text):
-    return re.findall(r"^\s*-\s*\*\*(P[1-9][0-9]*)\*\*\s*:", text, re.M)
+    return re.findall(r"^\s*-\s*\*\*(P[1-9][0-9]*):\*\*", text, re.M)
 
 
 def validate_file(path):
@@ -124,13 +124,13 @@ def new_cmd(args):
     target = doc_path(args.root, args.name)
     if target.exists() or target.parent.exists():
         raise PlaybookError(f"Refusing to overwrite existing path: {target.parent}")
+    if args.description and ("\n" in args.description or "\r" in args.description):
+        raise PlaybookError("Description must be one line")
     target.parent.mkdir(parents=True, exist_ok=False)
     body = TEMPLATE.read_text(encoding="utf-8")
     body = body.replace("REPLACE-SLUG", args.name)
     body = body.replace("REPLACE-TITLE", args.name.replace("-", " ").title())
     if args.description:
-        if "\n" in args.description or "\r" in args.description:
-            raise PlaybookError("Description must be one line")
         body = body.replace("TODO — one sentence stating the job and when to use it.", args.description)
     target.write_text(body, encoding="utf-8")
     print(f"Created draft: {target}")
@@ -203,7 +203,7 @@ def prepare_cmd(args):
             "name": args.name,
             "version": meta["version"],
             "source": str(path.resolve()),
-            "sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
             "proof_ids": proof_ids(text),
         },
         "inputs": inputs,
