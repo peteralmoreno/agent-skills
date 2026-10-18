@@ -13,6 +13,8 @@ import re
 import sys
 import uuid
 
+import bank as banklib
+
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = SKILL_ROOT / "assets" / "playbook-template.md"
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -41,6 +43,19 @@ def safe_slug(value):
     if not SLUG.fullmatch(value):
         raise PlaybookError("Name must be a lowercase slug, e.g. investigate-api")
     return value
+
+
+def selected_root(args):
+    """Choose an explicit, initialized bank or the legacy project-local location."""
+    if getattr(args, "bank", None):
+        return banklib.bank_dir(args.bank)
+    return Path(getattr(args, "root", None) or ".").expanduser().resolve()
+
+
+def add_source_args(parser):
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--root", help="Project directory; playbooks live in PROJECT/playbooks")
+    group.add_argument("--bank", help="Previously initialized bank directory (outside agent Skills)")
 
 
 def doc_path(root, slug):
@@ -121,7 +136,7 @@ def init_cmd(args):
 
 def new_cmd(args):
     safe_slug(args.name)
-    target = doc_path(args.root, args.name)
+    target = doc_path(selected_root(args), args.name)
     if target.exists() or target.parent.exists():
         raise PlaybookError(f"Refusing to overwrite existing path: {target.parent}")
     if args.description and ("\n" in args.description or "\r" in args.description):
@@ -147,7 +162,7 @@ def iter_docs(root, name=None):
 
 
 def list_cmd(args):
-    paths = iter_docs(args.root)
+    paths = iter_docs(selected_root(args))
     if not paths:
         print("(no playbooks)")
     for path in paths:
@@ -161,7 +176,7 @@ def list_cmd(args):
 
 
 def validate_cmd(args):
-    paths = iter_docs(args.root, args.name)
+    paths = iter_docs(selected_root(args), args.name)
     if not paths:
         raise PlaybookError("No playbooks to validate")
     failed = 0
@@ -178,7 +193,7 @@ def validate_cmd(args):
 
 
 def prepare_cmd(args):
-    path = doc_path(args.root, args.name)
+    path = doc_path(selected_root(args), args.name)
     errors, warnings = validate_file(path)
     if errors:
         raise PlaybookError("Invalid playbook: " + "; ".join(errors))
@@ -193,6 +208,11 @@ def prepare_cmd(args):
     if not isinstance(inputs, dict):
         raise PlaybookError("Inputs must be a JSON object")
     run_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:8]
+    recalled = []
+    if getattr(args, "bank", None):
+        recalled = [{"id": item["id"], "note": item["note"]}
+                    for item in banklib.read_memory(args.bank, args.name)
+                    if item.get("status") == "approved"]
     record = {
         "schema": "playbook-run/v1",
         "run_id": run_id,
@@ -207,11 +227,13 @@ def prepare_cmd(args):
             "proof_ids": proof_ids(text),
         },
         "inputs": inputs,
+        "memory_context": {"trust": "advisory_untrusted", "items": recalled},
         "proof": [],
         "created_at": now(),
         "completed_at": None,
     }
-    folder = library(args.root) / ".runs"
+    folder = (banklib.runs_dir(args.bank, args.name) if getattr(args, "bank", None)
+              else library(selected_root(args)) / ".runs")
     folder.mkdir(parents=True, exist_ok=True)
     output = folder / (run_id + ".json")
     with output.open("x", encoding="utf-8") as f:
@@ -276,6 +298,47 @@ def finish_cmd(args):
     print("Evidence is self-reported; authenticity and task success were NOT independently verified.")
 
 
+
+def bank_cmd(args):
+    if args.bank_action == "init":
+        root = banklib.create_bank(args.path)
+        print(f"Playbook Bank ready: {root}")
+        print("Playbooks are in playbooks/; private history and memory are in .state/.")
+    elif args.bank_action == "info":
+        root = banklib.bank_dir(args.path)
+        paths = sorted((root / "playbooks").glob("*/PLAYBOOK.md"))
+        print(json.dumps({"bank": str(root), "schema": "playbook-bank/v1",
+                          "playbooks": len(paths),
+                          "local_state": str(root / ".state")}, indent=2))
+
+
+def history_cmd(args):
+    entries = banklib.load_history(args.bank, args.name, args.limit)
+    if args.json:
+        print(json.dumps(entries, indent=2))
+    else:
+        for x in entries:
+            print(f"{x['run_id']}  {x['result'] or x['state']}  v{x['version']}  {x['date']}")
+        if not entries:
+            print("(no runs yet)")
+
+
+def memory_cmd(args):
+    if args.memory_action == "list":
+        items = banklib.read_memory(args.bank, args.name)
+        if not args.all:
+            items = [x for x in items if x.get("status") == "approved"]
+        print(json.dumps(items, indent=2))
+    elif args.memory_action == "add":
+        item = banklib.add_memory(args.bank, args.name, args.note, args.source_run)
+        print(json.dumps(item, indent=2))
+        print("Proposed only; explicit review required before use as approved context.")
+    elif args.memory_action == "approve":
+        item = banklib.approve_memory(args.bank, args.name, args.id, args.reviewer)
+        print(json.dumps(item, indent=2))
+        print("Reviewer identity is self-attested. This does not rewrite the playbook.")
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
@@ -284,22 +347,55 @@ def main(argv=None):
     p.set_defaults(fn=init_cmd)
     p = commands.add_parser("new", help="Create a draft playbook from the bundled template")
     p.add_argument("name")
-    p.add_argument("--root", default=".")
+    add_source_args(p)
     p.add_argument("--description")
     p.set_defaults(fn=new_cmd)
     p = commands.add_parser("list", help="Show available playbooks")
-    p.add_argument("--root", default=".")
+    add_source_args(p)
     p.set_defaults(fn=list_cmd)
     p = commands.add_parser("validate", help="Structural validation, not correctness verification")
     p.add_argument("name", nargs="?")
-    p.add_argument("--root", default=".")
+    add_source_args(p)
     p.set_defaults(fn=validate_cmd)
     p = commands.add_parser("prepare", help="Pin a playbook and prepare a run record; no AI execution")
     p.add_argument("name")
-    p.add_argument("--root", default=".")
+    add_source_args(p)
     p.add_argument("--inputs", required=True)
     p.add_argument("--allow-draft", action="store_true")
     p.set_defaults(fn=prepare_cmd)
+    p = commands.add_parser("bank", help="Manage a user-chosen Playbook Bank")
+    sub = p.add_subparsers(dest="bank_action", required=True)
+    b = sub.add_parser("init", help="Create a bank with a playbook catalog and private state")
+    b.add_argument("path")
+    b.set_defaults(fn=bank_cmd)
+    b = sub.add_parser("info", help="Inspect an existing bank")
+    b.add_argument("path")
+    b.set_defaults(fn=bank_cmd)
+    p = commands.add_parser("history", help="List saved execution records in a bank")
+    p.add_argument("name")
+    p.add_argument("--bank", required=True)
+    p.add_argument("--limit", type=int, default=20)
+    p.add_argument("--json", action="store_true")
+    p.set_defaults(fn=history_cmd)
+    p = commands.add_parser("memory", help="Review and curate persistent bank memory")
+    sub = p.add_subparsers(dest="memory_action", required=True)
+    m = sub.add_parser("list", help="Show approved entries (or --all)")
+    m.add_argument("name")
+    m.add_argument("--bank", required=True)
+    m.add_argument("--all", action="store_true")
+    m.set_defaults(fn=memory_cmd)
+    m = sub.add_parser("add", help="Propose a human-readable memory entry")
+    m.add_argument("name")
+    m.add_argument("--bank", required=True)
+    m.add_argument("--note", required=True)
+    m.add_argument("--source-run", help="Optional completed run ID in the same bank")
+    m.set_defaults(fn=memory_cmd)
+    m = sub.add_parser("approve", help="Explicitly approve a memory entry for future context")
+    m.add_argument("name")
+    m.add_argument("--bank", required=True)
+    m.add_argument("--id", required=True)
+    m.add_argument("--reviewer", required=True)
+    m.set_defaults(fn=memory_cmd)
     p = commands.add_parser("finish", help="Store self-reported proof and completion result")
     p.add_argument("record")
     p.add_argument("--proof", required=True)
@@ -308,7 +404,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         args.fn(args)
-    except (PlaybookError, OSError) as exc:
+    except (PlaybookError, banklib.BankError, OSError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 2
     return 0
