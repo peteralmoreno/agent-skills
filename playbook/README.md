@@ -45,7 +45,7 @@ python3 playbook/scripts/pb.py finish /path/to/project/playbooks/.runs/<run-id>.
 
 `prepare` and `finish` manage **records**, not model execution, service access or independent truth verification. The agent performs the work using its granted tools. `finish --result passed` requires all declared `P#` checks be self-reported as passed with evidence, but this is **not independent verification**.
 
-See [setup and authoring](references/authoring.md), [execution and improvement](references/execution.md), and [the canonical template](assets/playbook-template.md).
+See [setup and authoring](references/authoring.md), [execution and improvement](references/execution.md), [the canonical template](assets/playbook-template.md), and a [worked read-only PR inspection example](examples/inspect-pull-request/PLAYBOOK.md).
 
 ## Default workspace layout
 
