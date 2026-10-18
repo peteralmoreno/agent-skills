@@ -34,6 +34,10 @@ A **playbook** is a versioned, task-specific operational contract: when to use i
 
 If slash-command invocation is unsupported, respond to normal requests to use the `playbook` skill. `/playbook` by itself explains available modes.
 
+## Resolving paths
+
+References and scripts below are **relative to this installed Skill's folder**, not the consuming project's current directory. The command examples using `playbook/scripts/pb.py` assume execution from the `agent-skills` source repository root. When the Skill is installed elsewhere, invoke the absolute path to `<skill-root>/scripts/pb.py` and use `--root <target-project>` for the destination. Never guess the skill installation path.
+
 ## Core operating procedure
 
 1. **Locate the playbook library.** Check the provided workspace and existing `playbooks/` folder first. Do not assume the current working directory or overwrite an existing scheme.
