@@ -94,18 +94,18 @@ The HTML checker verifies limited structural metadata; it does not evaluate engi
 
 ## Installation
 
-Install Playbook for Claude Code or a portable Agent Skills runtime:
-
-```powershell
-Copy-Item -Recurse playbook "$env:USERPROFILE\.claude\skills\playbook"
-# Or: Copy-Item -Recurse playbook "$env:USERPROFILE\.agents\skills\playbook"
-```
-
 Clone the repository:
 
 ```powershell
 git clone https://github.com/peteralmoreno/agent-skills.git
 Set-Location agent-skills
+```
+
+Install Playbook for Claude Code or a portable Agent Skills runtime:
+
+```powershell
+Copy-Item -Recurse playbook "$env:USERPROFILE\.claude\skills\playbook"
+# Or: Copy-Item -Recurse playbook "$env:USERPROFILE\.agents\skills\playbook"
 ```
 
 Install Q-C-Code for Claude Code:
@@ -150,7 +150,7 @@ Install LENS for Codex:
 Copy-Item -Recurse -Force lens "$env:USERPROFILE\.agents\skills\lens"
 ```
 
-For runtimes that recognize the cross-runtime skills directory, install PRISM under `~/.agents/skills/prism`, RAY under `~/.agents/skills/ray`, and LENS under `~/.agents/skills/lens`.
+For runtimes that recognize the cross-runtime skills directory, install PRISM under `~/.agents/skills/prism`, RAY under `~/.agents/skills/ray`, , LENS under `~/.agents/skills/lens`, and Playbook under `~/.agents/skills/playbook`.
 
 Review an existing installation before using `-Force`; it can replace files with the same names.
 
