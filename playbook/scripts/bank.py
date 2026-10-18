@@ -6,6 +6,7 @@ No network access and no automatic extraction of memories from run outputs.
 from datetime import datetime, timezone
 import json
 import os
+import sys
 from pathlib import Path
 import re
 import uuid
@@ -69,7 +70,7 @@ def create_bank(path):
         ignore.write_text(".state/\n", encoding="utf-8")
     elif ".state/" not in ignore.read_text(encoding="utf-8").splitlines():
         # Don't silently rewrite a user's existing ignores.
-        print("WARNING: add .state/ to your bank .gitignore before committing", file=__import__('sys').stderr)
+        print("WARNING: add .state/ to your bank .gitignore before committing", file=sys.stderr)
     (root / ".state" / "runs").mkdir(parents=True, exist_ok=True)
     (root / ".state" / "memory").mkdir(parents=True, exist_ok=True)
     return root
@@ -84,7 +85,9 @@ def load_history(root, slug, limit=20):
         raise BankError("History limit must be from 1 to 500")
     folder = runs_dir(root, slug)
     records = []
-    for file in sorted(folder.glob("*.json"), reverse=True)[:limit]:
+    for file in sorted(folder.glob("*.json"),
+                       key=lambda f: (f.stat().st_mtime_ns, f.name),
+                       reverse=True)[:limit]:
         try:
             record = json.loads(file.read_text(encoding="utf-8"))
         except (ValueError, OSError):
