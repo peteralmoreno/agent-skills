@@ -6,6 +6,8 @@ Read for `setup` and `create` modes.
 
 Prefer a version-controlled `playbooks/` directory in the consuming project when procedures depend on that project's environment. Prefer a central repository when the procedures are cross-project and inputs are portable.
 
+**Optional Playbook Bank:** for a shared source outside this project, use `pb.py bank init <user-selected-folder>` and then `--bank <folder>` for `new`, `list`, `validate`, and `prepare`. The Bank stores versioned procedures under `playbooks/` and persistent history plus curated memory under ignored `.state/`. It does not merge with the project-local library or silently adopt a nonempty directory. Read [Bank setup and usage](bank.md) before configuring it.
+
 Keep canonical playbooks independent of the agent's installation directory. It should be possible to upgrade the playbook without rebuilding or reinstalling a Skill.
 
 Sample workspace:
@@ -88,6 +90,6 @@ Avoid embedding tokens or private environment data. Use the host's approved tool
 
 ## 6. Minimum viable operating model
 
-Do not build a registry service merely to store Markdown. Start with Git, a catalog and explicit review. Add an execution ledger and evaluations once the same task recurs enough to justify it.
+Do not build a registry service merely to store Markdown. An optional user-managed Bank is a directory, not a service. Start with Git, a catalog and explicit review. Add an execution ledger and evaluations once the same task recurs enough to justify it.
 
 The `pb.py` utility manages simple directories and structured records. It does not implement an AI runtime, Git integrations, approvals service, task scheduling, or model evaluations.
