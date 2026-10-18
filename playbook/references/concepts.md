@@ -29,10 +29,12 @@ These overlap. A runbook may be a playbook. A playbook may fit inside a Skill. T
 
 - **Simple:** one Markdown playbook + human/agent execution + manual review.
 - **Skill adapter:** a lightweight Agent Skill discovers/loads a canonical playbook; the playbook remains independently versioned.
-- **Managed:** catalog, reusable toolbox, run ledger, automatic structural checks, evaluation suite, approval-based promotion.
+- **Managed:** catalog, reusable toolbox, run ledger, automatic structural checks, evaluation suite, approval-based promotion. An optional user-chosen **Playbook Bank** can provide a shared directory with local history and curated memory, without placing procedures inside the Skill installation.
 - **Orchestrated:** use a workflow engine for durable state, retries, parallelism, approvals, and deterministic gates; use playbooks for domain expertise.
 
 Choose the simplest effective approach. Adding orchestration does not automatically make the content a better playbook.
+
+See [Playbook Bank](bank.md) for a portable implementation of that shared directory.
 
 ## Caveats behind popular claims
 
