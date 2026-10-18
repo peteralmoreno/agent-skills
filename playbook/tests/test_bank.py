@@ -39,8 +39,12 @@ class BankCLITests(unittest.TestCase):
     def prepare(self, slug="triage"):
         inp = self.work / "inputs.json"
         inp.write_text('{"service":"gateway"}', encoding="utf-8")
+        folder = self.bank / ".state" / "runs" / slug
+        before = set(folder.glob("*.json"))
         self.cli("prepare", slug, "--bank", self.bank, "--inputs", inp)
-        return sorted((self.bank / ".state" / "runs" / slug).glob("*.json"))[-1]
+        created = set(folder.glob("*.json")) - before
+        self.assertEqual(len(created), 1)
+        return created.pop()
 
     def finish(self, record):
         proof = self.work / "proof.json"
@@ -93,8 +97,8 @@ class BankCLITests(unittest.TestCase):
         history = json.loads(self.cli("history", "triage", "--bank", self.bank,
                                      "--json").stdout)
         self.assertEqual(len(history), 3)
-        self.assertEqual(history[0]["state"], "prepared")
-        self.assertEqual(history[-1]["result"], "passed")
+        self.assertEqual(sum(item["state"] == "prepared" for item in history), 2)
+        self.assertEqual(sum(item["result"] == "passed" for item in history), 1)
         approved = json.loads(self.cli("memory", "list", "triage",
                                       "--bank", self.bank).stdout)
         self.assertEqual(len(approved), 1)
