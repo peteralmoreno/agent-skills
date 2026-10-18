@@ -150,7 +150,7 @@ Install LENS for Codex:
 Copy-Item -Recurse -Force lens "$env:USERPROFILE\.agents\skills\lens"
 ```
 
-For runtimes that recognize the cross-runtime skills directory, install PRISM under `~/.agents/skills/prism`, RAY under `~/.agents/skills/ray`, , LENS under `~/.agents/skills/lens`, and Playbook under `~/.agents/skills/playbook`.
+For runtimes that recognize the cross-runtime skills directory, install PRISM under `~/.agents/skills/prism`, RAY under `~/.agents/skills/ray`, LENS under `~/.agents/skills/lens`, and Playbook under `~/.agents/skills/playbook`.
 
 Review an existing installation before using `-Force`; it can replace files with the same names.
 
