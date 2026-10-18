@@ -1,4 +1,0 @@
-interface:
-  display_name: "Playbook — Build & Operate"
-  short_description: "Create, run, review and improve versioned AI playbooks"
-  default_prompt: "Use the playbook skill to help me establish or operate a reusable playbook library. Keep individual playbooks portable, authorized, evidence-backed and independently improvable."
