@@ -8,7 +8,7 @@ Reusable agent skills by Peter Moreno.
 
 [`playbook`](playbook/) is a portable meta-skill for **learning, setting up, creating, discovering, executing, reviewing, and improving AI playbooks**. Playbooks are independently versioned procedures with inputs, explicit permissions, decision branches, reusable tools, and evidence requirements—not automatically specialized agents or Skills.
 
-Use `/playbook` in Claude Code, `$playbook` in Codex, or ask an agent to use the `playbook` skill. The Skill can initialize a `playbooks/` library in another project and scaffold individual `PLAYBOOK.md` files. Its optional standard-library CLI prepares pinned run records and checks the *structure* of self-reported proof; the agent performs execution with its separately authorized tools. See [the quickstart and usage guide](playbook/README.md).
+Use `/playbook` in Claude Code, `$playbook` in Codex, or ask an agent to use the `playbook` skill. The Skill can initialize a `playbooks/` library in another project and scaffold individual `PLAYBOOK.md` files. Its optional standard-library CLI prepares pinned run records and checks the *structure* of self-reported proof; the agent performs execution with its separately authorized tools. **Playbook Bank** mode lets users choose an independent folder as the source across projects, with persistent per-playbook run history and explicitly reviewed memory. See [the Bank guide](playbook/references/bank.md). See [the quickstart and usage guide](playbook/README.md).
 
 ### Q-C-Code
 
