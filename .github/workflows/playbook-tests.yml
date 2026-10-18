@@ -1,0 +1,32 @@
+name: Playbook Skill Tests
+
+on:
+  pull_request:
+    paths:
+      - "playbook/**"
+      - ".github/workflows/playbook-tests.yml"
+  push:
+    branches:
+      - main
+      - "feat/playbook-management-skill"
+    paths:
+      - "playbook/**"
+      - ".github/workflows/playbook-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  python-tests:
+    name: Playbook Python unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile playbook tools and tests
+        run: python -m compileall -q playbook/scripts playbook/tests
+      - name: Run local and bank tests
+        run: python -m unittest discover -s playbook/tests -v

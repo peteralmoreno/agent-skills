@@ -4,6 +4,12 @@ Reusable agent skills by Peter Moreno.
 
 ## Skills
 
+### Playbook
+
+[`playbook`](playbook/) is a portable meta-skill for **learning, setting up, creating, discovering, executing, reviewing, and improving AI playbooks**. Playbooks are independently versioned procedures with inputs, explicit permissions, decision branches, reusable tools, and evidence requirements—not automatically specialized agents or Skills.
+
+Use `/playbook` in Claude Code, `$playbook` in Codex, or ask an agent to use the `playbook` skill. The Skill can initialize a `playbooks/` library in another project and scaffold individual `PLAYBOOK.md` files. Its optional standard-library CLI prepares pinned run records and checks the *structure* of self-reported proof; the agent performs execution with its separately authorized tools. **Playbook Bank** mode lets users choose an independent folder as the source across projects, with persistent per-playbook run history and explicitly reviewed memory. See [the Bank guide](playbook/references/bank.md). See [the quickstart and usage guide](playbook/README.md).
+
 ### Q-C-Code
 
 [`qccode`](qccode/) adapts the QRSPI workflow for Claude Code:
@@ -95,6 +101,13 @@ git clone https://github.com/peteralmoreno/agent-skills.git
 Set-Location agent-skills
 ```
 
+Install Playbook for Claude Code or a portable Agent Skills runtime:
+
+```powershell
+Copy-Item -Recurse playbook "$env:USERPROFILE\.claude\skills\playbook"
+# Or: Copy-Item -Recurse playbook "$env:USERPROFILE\.agents\skills\playbook"
+```
+
 Install Q-C-Code for Claude Code:
 
 ```powershell
@@ -137,11 +150,17 @@ Install LENS for Codex:
 Copy-Item -Recurse -Force lens "$env:USERPROFILE\.agents\skills\lens"
 ```
 
-For runtimes that recognize the cross-runtime skills directory, install PRISM under `~/.agents/skills/prism`, RAY under `~/.agents/skills/ray`, and LENS under `~/.agents/skills/lens`.
+For runtimes that recognize the cross-runtime skills directory, install PRISM under `~/.agents/skills/prism`, RAY under `~/.agents/skills/ray`, LENS under `~/.agents/skills/lens`, and Playbook under `~/.agents/skills/playbook`.
 
 Review an existing installation before using `-Force`; it can replace files with the same names.
 
 ## Validation
+
+Test the Playbook Skill's local utility (Python standard library only):
+
+```powershell
+python -m unittest discover -s playbook/tests -v
+```
 
 The repository tests use only Node.js built-ins:
 
