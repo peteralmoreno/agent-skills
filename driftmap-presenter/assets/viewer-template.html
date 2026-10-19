@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; form-action 'none'">
+  <meta name="color-scheme" content="dark">
+  <title>Drift Maps | Map Overview</title>
+  <style>
+    :root{--bg:#0a0b0f;--base:#11141b;--panel:#151922;--line:#292e3a;--text:#eff0f4;--muted:#9ca4b3;--red:#ef5b53;--rose:#fa918b;--blue:#9bc0ef;--good:#8dd7af;--radius:16px}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 4%,#43222655,transparent 28%),radial-gradient(circle at 8% 48%,#12243745,transparent 38%),var(--bg);color:var(--text);font:15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+    .wrap{max-width:1350px;margin:auto;padding:0 24px}.top{border-bottom:1px solid #ffffff13;backdrop-filter:blur(14px)}.top .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:16px;padding-bottom:16px}.brand{display:flex;align-items:center;gap:12px;letter-spacing:.12em;font-weight:850;font-size:14px}.brandmark{width:35px;height:35px;background:linear-gradient(155deg,#e9564d,#843233);border-radius:10px;display:grid;place-items:center;color:white;font-weight:900;box-shadow:0 7px 22px #d34d4933}.muted{color:var(--muted)}
+    .tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:750;color:#f9b7aa;border:1px solid #bc615a7a;border-radius:100px;padding:6px 12px;background:#5d26253d}.hero{padding:60px 0 32px}.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--rose);font-weight:750;margin:0 0 13px}.hero h1{font-size:clamp(38px,5vw,66px);line-height:1.03;letter-spacing:-.055em;margin:0 0 19px;font-weight:760}.hero h1 span{color:var(--red)}.lead{max-width:790px;color:#c7ccd7;font-size:17px;margin:0}.hero p strong{color:var(--text)}.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.stat{border:1px solid var(--line);background:#151820ba;border-radius:11px;padding:11px 17px;min-width:120px}.stat strong{display:block;font-size:20px;line-height:1.2;letter-spacing:-.035em}.stat span{display:block;color:var(--muted);font-size:11px;margin-top:4px;text-transform:uppercase;letter-spacing:.08em}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) 355px;gap:18px;align-items:stretch;padding-bottom:25px}.panel{background:linear-gradient(145deg,#171b24dd,#101218f7);border:1px solid var(--line);border-radius:var(--radius);min-width:0;overflow:hidden;box-shadow:0 20px 60px #00000016}.p-head{padding:21px 23px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line)}.p-head h2,.p-head h3{font-size:15px;letter-spacing:-.01em;margin:0}.p-sub{font-size:12px;color:var(--muted);margin:2px 0 0}.actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.btn{border:1px solid #46505f;background:#1f2530;color:var(--text);padding:9px 12px;border-radius:9px;cursor:pointer;font:inherit;font-size:12px;font-weight:700;white-space:nowrap}.btn:hover,.btn:focus-visible{border-color:var(--rose);outline:none}.btn.primary{background:#a93d39;border-color:#d75b55;color:#fff}.btn:disabled{opacity:.43;cursor:default}
+    .graph-container{position:relative;overflow:auto;min-height:450px;max-height:760px;padding:14px;scrollbar-color:#434a58 #131820}.graph{display:block;width:100%;min-width:620px;height:auto;touch-action:pan-x pan-y}.edge{fill:none;stroke:#646d7f;stroke-width:1.7;opacity:.7}.edge.active{stroke:var(--red);stroke-width:2.7;opacity:1}.edge.used{stroke:#6dbaa1;stroke-width:2.3;opacity:1}.edge-label{fill:#afb8c6;font-size:11px;font-weight:600;paint-order:stroke;stroke:#141820;stroke-width:6px;stroke-linejoin:round}.node{cursor:pointer}.node rect{fill:#202632;stroke:#536073;stroke-width:1.3}.node text{fill:#eff1f5;text-anchor:middle;dominant-baseline:middle;pointer-events:none}.node .sub{fill:#9da9bb;font-size:10px}.node .main{font-size:14px;font-weight:700}.node.selected rect{stroke:#f09a8e;stroke-width:2.5}.node.current rect{fill:#512b33;stroke:#ee665d;stroke-width:2.6}.node.visited rect{stroke:#68b397}.node.terminal rect{fill:#242e32;stroke:#729587;stroke-dasharray:4 4}.node:focus-visible rect{stroke:#fff;stroke-width:3}.legend{display:flex;flex-wrap:wrap;gap:16px;padding:12px 23px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}.dot{display:inline-block;height:9px;width:9px;border-radius:50%;margin-right:6px;background:#ee665d}.dot.green{background:#68b397}.dot.grey{background:#7b8394}
+    .side{display:flex;flex-direction:column}.detail{padding:22px;overflow:auto;max-height:760px}.detail .file{font-size:11px;font-family:ui-monospace,monospace;color:#ef9a91;background:#442b314f;border:1px solid #844d5488;border-radius:7px;padding:6px 9px;display:inline-block}.detail h2{font-size:25px;line-height:1.2;margin:18px 0 9px;letter-spacing:-.035em}.detail p{color:#c9ced8}.detail h3,.detail h4,.detail h5{font-size:14px;margin:24px 0 5px}.detail li{color:#c9ced8;margin:5px 0}.detail ul{padding-left:19px}.detail pre{overflow:auto;border:1px solid #3b414f;background:#0c1119;border-radius:8px;padding:10px;color:#ccd7e9}.micro{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:#99a4b6;margin:22px 0 10px;font-weight:750}.pills{display:flex;flex-wrap:wrap;gap:6px}.pill{font-family:ui-monospace,monospace;font-size:11px;background:#242b36;border:1px solid #384455;border-radius:7px;padding:4px 7px;color:#d4deeb}.route-btn{display:block;width:100%;text-align:left;border:1px solid #3b4352;border-radius:10px;background:#1f2630;padding:10px 12px;color:var(--text);margin:7px 0;cursor:pointer}.route-btn:hover,.route-btn:focus-visible{outline:none;border-color:#f18175;background:#2b2630}.route-btn b{display:block;font-size:12px}.route-btn span{font-size:12px;color:var(--muted)}.route-box{padding-top:16px;border-top:1px solid var(--line);margin-top:20px}
+    .reading{border:1px solid var(--line);background:#11151cbb;border-radius:16px;margin:8px 0 55px;padding:24px 28px}.reading h2{margin:0 0 10px;font-size:20px;letter-spacing:-.02em}.reading .content{columns:2;column-gap:35px;color:#c3cbd7}.reading p{margin-top:0}.reading h3{break-after:avoid;color:#f2f2f5;font-size:15px}.reading li{break-inside:avoid}.reading code{font:12px ui-monospace,monospace}.reading pre{white-space:pre-wrap}.foot{border-top:1px solid #ffffff12;padding:23px 0 32px;color:#8f9baa;font-size:12px;display:flex;justify-content:space-between;gap:12px}
+    @media(max-width:990px){.layout{grid-template-columns:1fr}.detail{max-height:none}.reading .content{columns:1}}@media(max-width:640px){.wrap{padding:0 15px}.hero{padding:36px 0 25px}.lead{font-size:15px}.p-head{align-items:flex-start;flex-direction:column}.graph-container{max-height:590px}.reading{padding:20px}.top .tag{display:none}.foot{display:block}.stats{gap:7px}.stat{min-width:95px;padding:10px 12px}.stat strong{font-size:17px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+    @media print{body{background:white;color:#12161f}.top,.actions,.route-box{display:none!important}.layout{display:block}.panel,.reading{box-shadow:none;border:1px solid #ccc;background:#fff}.graph-container{max-height:none}.graph{min-width:0}.detail{max-height:none}.reading .content{columns:1}.hero h1,.detail h2{color:#222}}
+  </style>
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="brand"><span class="brandmark" aria-hidden="true">D</span> DRIFT MAPS <span class="muted">/ OVERVIEW</span></div><span class="tag">Human-facing companion</span></div></header>
+<main class="wrap">
+  <section class="hero" aria-labelledby="map-title">
+    <p class="eyebrow">Explore the workflow / no execution required</p>
+    <h1 id="map-title">Loading map<span>.</span></h1>
+    <p class="lead">Follow the map, inspect the nodes, and explore the decisions without changing the underlying workflow.</p>
+    <div class="stats">
+      <div class="stat"><strong id="nodes-count">—</strong><span>Nodes</span></div>
+      <div class="stat"><strong id="routes-count">—</strong><span>Transitions</span></div>
+      <div class="stat"><strong id="version">—</strong><span>Map version</span></div>
+      <div class="stat"><strong>Read-only</strong><span>Presentation mode</span></div>
+    </div>
+  </section>
+  <section class="layout" aria-label="Interactive map and node inspector">
+    <div class="panel">
+      <div class="p-head"><div><h2>Execution map</h2><p class="p-sub">Click any node to inspect it. Use the route explorer to walk a possible path.</p></div><div class="actions"><button id="zoom-in" class="btn" aria-label="Zoom in">+</button><button id="zoom-out" class="btn" aria-label="Zoom out">−</button><button id="zoom-reset" class="btn">Fit</button><button id="reset" class="btn primary">Reset route</button></div></div>
+      <div class="graph-container"><svg id="graph" class="graph" role="img" aria-label="Interactive graph of Drift Map nodes and transitions"></svg></div>
+      <div class="legend"><span><i class="dot"></i>Current preview</span><span><i class="dot green"></i>Visited</span><span><i class="dot grey"></i>Not visited</span></div>
+    </div>
+    <aside class="panel side"><div class="p-head"><div><h3>Node inspector</h3><p class="p-sub">The real instructions come from the node files.</p></div></div><div class="detail" id="detail" aria-live="polite"></div></aside>
+  </section>
+  <section class="reading"><h2>About this map</h2><div class="content" id="overview"></div></section>
+</main>
+<footer class="wrap foot"><span>Drift Maps / standalone interactive companion</span><span>This page does not execute nodes or grant permissions.</span></footer>
+<script>
+"use strict";
+const MAP = __MAP_DATA__;
+const SVG = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("graph");
+const detail = document.getElementById("detail");
+const index = new Map(MAP.nodes.map(n => [n.id, n]));
+const edges = MAP.edges;
+let selected = "setup";
+let active = "setup";
+let visited = ["setup"];
+let zoom = 1;
+let GW = 920, GH = 650;
+
+function el(name, attrs, parent, text) {
+  const e = document.createElementNS(SVG, name);
+  for (const key in (attrs || {})) e.setAttribute(key, attrs[key]);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function out(id){return edges.filter(e => e.from === id);}
+function safeText(s){return String(s || "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");}
+function pills(title, values) {
+  if (!values || !values.length) return "";
+  return '<div class="micro">'+safeText(title)+'</div><div class="pills">'+values.map(x=>'<span class="pill">'+safeText(x)+'</span>').join("")+'</div>';
+}
+function compute() {
+  const levels = {"setup":0};
+  const queue=["setup"];
+  while(queue.length) {
+    const id=queue.shift();
+    for(const edge of out(id)) {
+      if(levels[edge.to] === undefined) { levels[edge.to]=levels[id]+1; queue.push(edge.to); }
+    }
+  }
+  const finalDepth = Math.max(...Object.values(levels),0);
+  for(const item of MAP.nodes) if(levels[item.id]===undefined) levels[item.id]=finalDepth+1;
+  const rows = new Map();
+  for(const item of MAP.nodes){
+    const depth=levels[item.id];
+    if(!rows.has(depth)) rows.set(depth,[]);
+    rows.get(depth).push(item.id);
+  }
+  const width=Math.max(900, Math.max(...[...rows.values()].map(x=>x.length))*230+110);
+  const height=(Math.max(...rows.keys())+1)*134+130;
+  const positions = {};
+  for(const [depth, ids] of rows){
+    ids.forEach((id,i)=>{
+      positions[id]={x:width*(i+1)/(ids.length+1),y:82+depth*132};
+    });
+  }
+  return {width,height,positions};
+}
+function draw() {
+  svg.replaceChildren();
+  const graph=compute();
+  GW=graph.width;GH=graph.height;
+  svg.setAttribute("viewBox", "0 0 "+(GW/zoom)+" "+(GH/zoom));
+  svg.style.aspectRatio=GW+"/"+GH;
+  svg.style.minWidth="650px";
+  const defs=el("defs",{},svg);
+  let marker=el("marker",{id:"arrow",markerWidth:"10",markerHeight:"10",refX:"8",refY:"4",orient:"auto"},defs);
+  el("path",{d:"M0 0L8 4L0 8",fill:"none",stroke:"#7f899d", "stroke-width":"1.4"},marker);
+  const known = new Set(visited);
+  for(const e of edges){
+    const a=graph.positions[e.from],b=graph.positions[e.to];
+    if(!a || !b)continue;
+    const self=e.from===e.to;
+    let d,x,y;
+    if(self){
+      d="M "+(a.x+99)+" "+a.y+" C "+(a.x+195)+" "+(a.y-58)+" "+(a.x+195)+" "+(a.y+67)+" "+(a.x+99)+" "+(a.y+16);
+      x=a.x+170;y=a.y-24;
+    } else {
+      const forward=b.y>a.y;
+      const ay=a.y+ (forward?35:0),by=b.y-(forward?35:0);
+      d="M "+a.x+" "+ay+" C "+a.x+" "+((ay+by)/2)+" "+b.x+" "+((ay+by)/2)+" "+b.x+" "+by;
+      x=(a.x+b.x)/2;y=(ay+by)/2-8;
+    }
+    const used=visited.some((s,i)=>i>0&&visited[i-1]===e.from&&s===e.to);
+    el("path",{d, "class":"edge "+(used?"used":(e.from===active?"active":"")), "marker-end":"url(#arrow)"},svg);
+    if(e.label) el("text",{x,y,"class":"edge-label","text-anchor":"middle"},svg,e.label.length>37?e.label.slice(0,36)+"…":e.label);
+  }
+  for(const n of MAP.nodes){
+    const p=graph.positions[n.id];
+    const classes=["node"];
+    if(n.control) classes.push("terminal");
+    if(known.has(n.id))classes.push("visited");
+    if(active===n.id)classes.push("current");
+    if(selected===n.id)classes.push("selected");
+    const group=el("g",{"class":classes.join(" "),transform:"translate("+p.x+" "+p.y+")",tabindex:"0",role:"button","aria-label":"Inspect "+n.label},svg);
+    el("rect",{x:-99,y:-34,width:198,height:68,rx:12},group);
+    const display=n.label.length>26?n.label.slice(0,25)+"…":n.label;
+    el("text",{x:0,y:-5,"class":"main"},group,display);
+    el("text",{x:0,y:17,"class":"sub"},group,n.control?"CONTROL":n.id+".md");
+    group.addEventListener("click",()=>select(n.id));
+    group.addEventListener("keydown",evt=>{if(evt.key==="Enter"||evt.key===" "){evt.preventDefault();select(n.id);}});
+  }
+}
+function select(id){
+  selected=id;draw();
+  const n=index.get(id);
+  if(!n)return;
+  let body='<span class="file">'+safeText(n.control?"Control endpoint":n.file)+'</span><h2>'+safeText(n.label)+'</h2>';
+  if(n.control){
+    body+='<p>This is a control destination. It does not have an executable node file.</p>';
+  }else{
+    body+=pills("Requires",n.requires)+pills("Produces",n.produces)+pills("Tool hints · optional",n.tool_hints);
+    body+='<div class="micro">Instructions</div>'+n.html;
+  }
+  body+='<div class="route-box"><div class="micro">Route explorer · preview only</div><p class="muted">Current position: <strong>'+safeText(active)+'</strong>. Select an outcome to explore a possible route. This does not run the map.</p>';
+  const options=out(active);
+  if(!options.length)body+='<p>No outgoing routes. This path has reached a control endpoint.</p>';
+  for(const e of options){
+    body+='<button class="route-btn" data-target="'+safeText(e.to)+'"><b>'+safeText(e.label||"Continue")+'</b><span>Go to '+safeText(e.to)+'</span></button>';
+  }
+  body+='</div>';
+  detail.innerHTML=body;
+  detail.querySelectorAll("[data-target]").forEach(b=>b.addEventListener("click",()=>follow(b.dataset.target)));
+}
+function follow(to){
+  if(!out(active).some(e=>e.to===to))return;
+  visited.push(to);
+  active=to;
+  select(to);
+}
+function reset(){active="setup";visited=["setup"];select("setup");}
+document.getElementById("map-title").textContent=MAP.title;
+document.title=MAP.title+" | Drift Maps";
+document.getElementById("nodes-count").textContent=String(MAP.nodes.filter(n=>!n.control).length);
+document.getElementById("routes-count").textContent=String(edges.length);
+document.getElementById("version").textContent=MAP.version;
+document.getElementById("overview").innerHTML=MAP.overview;
+document.getElementById("reset").addEventListener("click",reset);
+document.getElementById("zoom-in").addEventListener("click",()=>{zoom=Math.min(2.1,zoom*1.2);draw();});
+document.getElementById("zoom-out").addEventListener("click",()=>{zoom=Math.max(.7,zoom/1.2);draw();});
+document.getElementById("zoom-reset").addEventListener("click",()=>{zoom=1;draw();});
+reset();
+</script>
+</body>
+</html>
