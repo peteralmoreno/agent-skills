@@ -1,0 +1,32 @@
+name: Drift Map Presenter Tests
+
+on:
+  pull_request:
+    paths:
+      - "driftmap-presenter/**"
+      - ".github/workflows/driftmap-presenter-tests.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "driftmap-presenter/**"
+      - ".github/workflows/driftmap-presenter-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Syntax check
+        run: python -m compileall -q driftmap-presenter/scripts driftmap-presenter/tests
+      - name: Regression tests
+        run: python -m unittest discover -s driftmap-presenter/tests -v
+      - name: Generate sample HTML
+        run: python driftmap-presenter/scripts/render_map.py driftmap-presenter/examples/burrito-cannon/MAP.md --out /tmp/driftmap-overview.html
