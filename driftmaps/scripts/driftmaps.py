@@ -47,7 +47,8 @@ def frontmatter(file):
         item = re.fullmatch(r"  - (.+)", line)
         if top:
             key, val = top.groups()
-            data[key] = val.strip().strip('"').strip("'") if val else []
+            val = val.strip()
+            data[key] = [] if val in ("", "[]") else ({} if val == "{}" else val.strip('"').strip("'"))
         elif sub and key:
             if not isinstance(data[key], dict):
                 data[key] = {}
