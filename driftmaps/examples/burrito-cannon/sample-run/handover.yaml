@@ -1,0 +1,28 @@
+meta:
+  format: drift-handover/v1
+  source:
+    map: burrito-cannon
+    version: "0.1.0"
+    run: burrito-0042
+
+result:
+  status: ready
+  data:
+    burrito_ref: BUR-42
+    customer:
+      coordinates: [30.45, -97.62]
+      isMember: false
+    delivery:
+      status: confirmed
+      reference: DEL-42
+    notification:
+      status: sent
+  evidence:
+    - check: simulated-delivery-confirmed
+      status: passed
+      ref: SIM-DEL-42
+  issues: []
+
+continuation:
+  map: customer-feedback
+  intent: Ask the customer for feedback in a separately authorized map
