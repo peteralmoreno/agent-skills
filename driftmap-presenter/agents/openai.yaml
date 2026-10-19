@@ -1,0 +1,4 @@
+interface:
+  display_name: "Drift Map Presenter"
+  short_description: "Create optional interactive HTML views of Drift Maps"
+  default_prompt: "Use the Drift Map Presenter skill to create a self-contained, read-only interactive HTML overview for the supplied MAP.md. Show its actual Mermaid routes and node guidance, without altering map files or executing the workflow."
