@@ -1,0 +1,13 @@
+<svg class="morrito-question-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+  <!-- A deep, tactile gold question block: bevels, studs, enamel and an inset mark. -->
+  <path d="M18 19 28 9h74l11 11v80l-10 11H27L17 101Z" fill="#1b1b1b" stroke="#191919" stroke-width="5" stroke-linejoin="round"/>
+  <path d="m28 9-10 10 10 10h74l11-9-11-11Z" fill="#ffe883" stroke="#191919" stroke-width="4" stroke-linejoin="round"/>
+  <path d="m103 9 10 11v80l-10 11V29Z" fill="#a95b10" stroke="#191919" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="18" y="19" width="85" height="87" rx="5" fill="#ffc92f" stroke="#191919" stroke-width="5"/>
+  <path d="M25 31V27h69" fill="none" stroke="#fff5a0" stroke-width="5" stroke-linecap="round"/>
+  <path d="M95 38v59H33" fill="none" stroke="#d68719" stroke-width="5" stroke-linecap="round"/>
+  <path d="M44 49v-6q0-13 17-13h4q18 0 18 15v7q0 9-12 15l-6 4v5H51V62l11-7q7-4 7-8v-4H57v9H44Z" fill="#191919" stroke="#191919" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M45 45q0-14 16-14h4q17 0 17 14v7q0 8-12 14l-6 4v5H53V62l11-7q7-4 7-8v-4H56v8H45Z" fill="#fffdf1" stroke="#191919" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M53 79h13v12H53Z" fill="#fffdf1" stroke="#191919" stroke-width="4" stroke-linejoin="round"/>
+  <g fill="#fff7a0" stroke="#191919" stroke-width="2.6"><rect x="27" y="29" width="7" height="7"/><rect x="86" y="29" width="7" height="7"/><rect x="27" y="90" width="7" height="7"/><rect x="86" y="90" width="7" height="7"/></g>
+</svg>

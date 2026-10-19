@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 268" fill="none" aria-hidden="true" focusable="false">
+  <!-- Original locally bundled mascot: a friendly golden fantasy riding bird. -->
+  <ellipse cx="137" cy="244" rx="87" ry="13" fill="#33332e" opacity=".17"/>
+  <!-- Feathery crest, from back to front -->
+  <path d="M112 66C104 31 111 18 95 6c25-2 37 21 37 44C136 24 149 10 158 7c8 22 0 39-8 52 20-19 41-16 52-9-9 20-28 26-44 36Z" fill="#eebc33" stroke="#493a28" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M111 52C89 34 69 38 55 47c15 8 27 17 37 37Z" fill="#f4cb4a" stroke="#493a28" stroke-width="6"/>
+  <!-- Fluffy tail feathers -->
+  <path d="M64 152C43 153 30 136 14 139c8 24 30 33 47 35-25-1-37 10-49 15 17 15 35 16 53 4-13 18-11 30-6 38 20-7 33-27 43-44Z" fill="#eab12c" stroke="#493a28" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M68 167C42 176 36 178 22 187M67 184C53 203 51 208 60 218" stroke="#fff09b" stroke-width="5" stroke-linecap="round"/>
+  <!-- Body -->
+  <path d="M83 128c-22 10-35 35-31 57 6 36 40 55 79 56 48 1 76-28 75-59-1-32-21-53-53-66Z" fill="#e4aa26" stroke="#493a28" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M94 152c-18 3-30 16-30 35 4 22 24 39 50 39 25 0 48-17 48-36-6-19-28-35-68-38" fill="#ffd85f"/>
+  <!-- Long strong neck -->
+  <path d="M151 162c26-25 39-45 33-73-5-25-26-42-54-40-30 3-48 23-44 52 5 30 26 42 65 61Z" fill="#f3c13d" stroke="#493a28" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M98 88c12-22 35-27 53-20" stroke="#ffeba1" stroke-width="7" stroke-linecap="round"/>
+  <!-- Face and beak -->
+  <path d="M159 101c26 1 41 4 63 18 10 7 17 18 13 24-25 6-48 7-70-2Z" fill="#df872f" stroke="#493a28" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M174 124c24 3 42 5 59 14" stroke="#ffd06c" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="149" cy="92" rx="15" ry="18" fill="#fff8e7" stroke="#493a28" stroke-width="4"/><ellipse cx="153" cy="93" rx="6" ry="10" fill="#29273b"/><circle cx="155" cy="88" r="2.7" fill="#fff"/>
+  <path d="M127 75c8-6 16-7 24-6" stroke="#493a28" stroke-width="5" stroke-linecap="round"/>
+  <!-- Wing shapes -->
+  <path d="M93 157c-19 22-11 45 12 54 28 4 45-13 50-34-17-4-23-13-35-19-11-6-19-7-27-1Z" fill="#f7ce49" stroke="#493a28" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M94 189c17 0 27-2 39-16M95 198c15 1 29-6 41-17" stroke="#db9321" stroke-width="4" stroke-linecap="round"/>
+  <!-- Riding tack: small violet saddle -->
+  <path d="M88 140c14-11 46-15 68-2l17 22c-32-8-59-6-84 5Z" fill="#584466" stroke="#493a28" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M96 144c17-6 39-8 57-2" stroke="#e7cd8a" stroke-width="4" stroke-linecap="round"/>
+  <path d="M165 159c-13 10-20 17-21 41" stroke="#644e71" stroke-width="8" stroke-linecap="round"/>
+  <!-- Bird legs and claws -->
+  <path d="M111 226c-2 9-4 17-7 24m47-22-3 23" stroke="#9c642e" stroke-width="12" stroke-linecap="round"/>
+  <path d="M102 251c-16 0-25 0-34 8m36-8c-2-5-6-9-12-12m57 14c-11-1-19 0-29 8m28-8c6-7 11-9 16-8" stroke="#925929" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
