@@ -65,6 +65,7 @@ Treat the user's request as the authorization boundary for a mode. Creating or e
 - [Map and node format](references/format.md)
 - [Execution, Trail, retry and handover contracts](references/execution.md)
 - [Worked Burrito Cannon map](examples/burrito-cannon/MAP.md)
+- [Existing PR to merge-ready map](examples/pr-ready/MAP.md), with bounded repairs, Copilot re-review, CI follow-up, and a scope-drift pause
 - [Starter templates](assets/MAP-template.md), [node](assets/node-template.md), [Trail](assets/trail-template.yaml), [handover](assets/handover-template.yaml)
 - [Portable validation and scaffolding CLI](scripts/driftmaps.py)
 

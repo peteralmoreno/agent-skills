@@ -100,9 +100,12 @@ The Map's existing `limits.max_transitions` remains the overall run limit; it ca
 
 For a polished interactive HTML graph and clickable nodes, install the **separate** `driftmap-presenter` Skill. It renders a read-only snapshot **only when requested**, and never replaces the Map source. It is not a runtime dependency.
 
-## Example and tests
+## Examples and tests
 
-Read [the complete Burrito Cannon sample](examples/burrito-cannon/MAP.md), [format guide](references/format.md), and [execution guide](references/execution.md).
+- [Burrito Cannon](examples/burrito-cannon/MAP.md): a fictional delivery flow with straightforward branches.
+- [Get an existing PR ready to merge](examples/pr-ready/MAP.md): address Copilot findings, merge current main, fix CI, refresh stale comment gates, and stop for scope drift. Ten repair rounds maximum; final merge stays with the human. Includes [worked scenarios](examples/pr-ready/SCENARIOS.md).
+
+Read the [format guide](references/format.md) and [execution guide](references/execution.md).
 
 ```bash
 python3 -m unittest discover -s driftmaps/tests -v
