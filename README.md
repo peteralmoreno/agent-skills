@@ -4,6 +4,18 @@ Reusable agent skills by Peter Moreno.
 
 ## Skills
 
+### Drift Map Presenter (optional)
+
+[`driftmap-presenter`](driftmap-presenter/) generates a **self-contained, interactive HTML front face** for an existing Drift Map: clickable nodes, a read-only route explorer, and readable map/node instructions. It uses the authoritative `MAP.md` Mermaid flowchart and `nodes/*.md` files; it never executes the map or becomes required for AI agents.
+
+**Opt-in only:** not every map needs a human UI. Ask an agent to use the `driftmap-presenter` skill when a visual overview would help, or run:
+
+```bash
+python3 driftmap-presenter/scripts/render_map.py path/to/my-map/MAP.md
+```
+
+See the [Skill guide](driftmap-presenter/README.md), [human-view design notes](driftmap-presenter/references/design.md), and [Burrito Cannon example](driftmap-presenter/examples/burrito-cannon/MAP.md).
+
 ### Q-C-Code
 
 [`qccode`](qccode/) adapts the QRSPI workflow for Claude Code:
