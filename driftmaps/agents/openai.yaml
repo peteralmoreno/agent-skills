@@ -1,0 +1,4 @@
+interface:
+  display_name: "DriftMaps"
+  short_description: "Create and execute Markdown/YAML agent maps"
+  default_prompt: "Use the DriftMaps skill to create, validate, or run a procedural map with a Mermaid graph, real Markdown nodes, checkpointed Trail state, and a transferable handover. Never invent missing nodes or execute beyond authorization."

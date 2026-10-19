@@ -4,6 +4,20 @@ Reusable agent skills by Peter Moreno.
 
 ## Skills
 
+### DriftMaps
+
+[`driftmaps`](driftmaps/) is a portable, **flowchart-first Agent Skill** for creating, inspecting, executing, and improving reusable AI procedures. `MAP.md` defines the authorized routes, `nodes/*.md` contains real operating guidance, `trail.yaml` checkpoints working context and referenced artifacts, and `handover.yaml` transfers the outcome.
+
+Every map begins with `nodes/setup.md`. Agents must read actual node files instead of inventing steps; `tool_hints` are nonbinding discovery hints, and finite transition budgets bound loops. DriftMaps is Markdown/YAML-first and requires no special agent framework or HTML viewer.
+
+```bash
+python3 driftmaps/scripts/driftmaps.py init --root /path/to/project
+python3 driftmaps/scripts/driftmaps.py new my-map --root /path/to/project
+python3 driftmaps/scripts/driftmaps.py validate /path/to/project/maps/my-map/MAP.md
+```
+
+The separately installable [Drift Map Presenter Skill](https://github.com/peteralmoreno/agent-skills/pull/5) is an optional human-facing interactive HTML companion, not a dependency. See the [full DriftMaps guide](driftmaps/README.md) and [Burrito Cannon example](driftmaps/examples/burrito-cannon/MAP.md).
+
 ### Q-C-Code
 
 [`qccode`](qccode/) adapts the QRSPI workflow for Claude Code:

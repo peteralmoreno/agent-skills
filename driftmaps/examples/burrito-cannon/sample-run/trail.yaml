@@ -1,0 +1,39 @@
+meta:
+  run: burrito-0042
+  map: burrito-cannon
+  version: "0.1.0"
+  simulated: true
+
+current:
+  status: completed
+  node: null
+
+context:
+  order_ref: ORD-42
+  customer_ref: CUST-42
+  burrito_ref: BUR-42
+  coordinates: [30.45, -97.62]
+  isMember: false
+  sms_opt_in: true
+  delivery_ref: DEL-42
+  delivery_status: confirmed
+  notification_status: sent
+
+artifacts: {}
+
+history:
+  - node: setup
+    outcome: ready
+    next: prepare
+  - node: prepare
+    outcome: wrapped
+    next: locate
+  - node: locate
+    outcome: verified coordinates
+    next: blast
+  - node: blast
+    outcome: delivery confirmed
+    next: notify
+  - node: notify
+    outcome: sent or skipped
+    next: complete

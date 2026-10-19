@@ -1,0 +1,20 @@
+meta:
+  run: example-run-001
+  map: example-map
+  version: "0.1.0"
+  source_sha256: "replace-with-computed-digest"
+
+current:
+  status: running
+  node: setup
+
+context:
+  order_ref: example-42
+  isMember: false
+
+artifacts:
+  draft:
+    path: artifacts/spec.html
+    revision: 1
+
+history: []

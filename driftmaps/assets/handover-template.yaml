@@ -1,0 +1,19 @@
+meta:
+  format: drift-handover/v1
+  source:
+    map: example-map
+    version: "0.1.0"
+    run: example-run-001
+
+result:
+  status: partial
+  data:
+    artifact:
+      path: artifacts/spec.html
+      format: html
+  evidence: []
+  issues:
+    - code: unverified
+      message: A source check is still needed
+
+continuation: null
