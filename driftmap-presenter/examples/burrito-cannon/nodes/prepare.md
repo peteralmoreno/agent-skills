@@ -7,10 +7,8 @@ tool_hints:
   - kitchen_simulation
 ---
 
-# Prepare Burrito
+# Prepare the burrito
 
-Use the order to prepare a fictional burrito. Check dietary restrictions and available ingredients.
+Check ingredients and dietary restrictions in the example order. Prepare and wrap a fictional burrito.
 
-Package the result for the simulated delivery.
-
-If ingredients cannot be obtained safely, choose the stop route rather than making assumptions.
+Record an identifiable prepared burrito reference. If necessary ingredients are unavailable, choose **ingredient issue**.

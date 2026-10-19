@@ -25,7 +25,7 @@ class PresenterTests(unittest.TestCase):
     def test_extracts_graph_and_node_metadata(self):
         model = renderer.load_map(self.source)
         self.assertEqual(model["name"], "burrito-cannon")
-        self.assertEqual(len(model["edges"]), 9)
+        self.assertEqual(len(model["edges"]), 10)
         ids = {n["id"] for n in model["nodes"]}
         self.assertEqual(ids, {"setup", "prepare", "locate", "blast",
                                 "notify", "pause", "stop", "complete"})
@@ -33,6 +33,15 @@ class PresenterTests(unittest.TestCase):
                                        if n["id"] == "locate")["produces"])
         self.assertEqual(next(n for n in model["nodes"]
                               if n["id"] == "pause")["file"], "")
+
+    def test_attempt_limit_comes_from_node_metadata(self):
+        node_path = self.folder / "nodes" / "blast.md"
+        node_path.write_text(node_path.read_text().replace("max_visits: 1", "max_visits: 10"))
+        model = renderer.load_map(self.source)
+        blast = next(n for n in model["nodes"] if n["id"] == "blast")
+        setup = next(n for n in model["nodes"] if n["id"] == "setup")
+        self.assertEqual(blast["max_visits"], 10)
+        self.assertIsNone(setup["max_visits"])
 
     def test_generates_standalone_html_without_mutating_source(self):
         files = sorted(self.folder.rglob("*.md"))
@@ -49,7 +58,38 @@ class PresenterTests(unittest.TestCase):
         self.assertNotIn('<script src=', text)
         self.assertNotIn('fetch(', text)
         self.assertEqual(before, {str(p): p.read_bytes() for p in files})
-        self.assertEqual(len(model["edges"]), 9)
+        self.assertEqual(len(model["edges"]), 10)
+
+    def test_optional_styles_change_presentation_only_and_stay_standalone(self):
+        default, first = renderer.create(self.source, self.folder / "default.html")
+        self.assertIn('content="dark"', default.read_text())
+        for style in ("morrito", "gilded"):
+            with self.subTest(style=style):
+                themed, second = renderer.create(self.source, self.folder / (style + ".html"), style=style)
+                self.assertEqual(first, second)
+                self.assertIn('content="light"', themed.read_text())
+                css = (SKILL / "assets" / (style + ".css")).read_text()
+                if style == "morrito":
+                    star = renderer.base64.b64encode((SKILL / "assets/morrito-star.svg").read_bytes()).decode("ascii")
+                    css = css.replace("__MORRITO_STAR__", "data:image/svg+xml;base64," + star)
+                    self.assertNotIn("__MORRITO_STAR__", themed.read_text())
+                    self.assertNotIn('class="morrito-banner"', themed.read_text())
+                    self.assertIn('id="morrito-earth"', themed.read_text())
+                if style == "gilded":
+                    bird = renderer.base64.b64encode((SKILL / "assets/gilded-bird.png").read_bytes()).decode("ascii")
+                    css = css.replace("__GILDED_BIRD__", "data:image/png;base64," + bird)
+                    self.assertNotIn("__GILDED_BIRD__", themed.read_text())
+                self.assertIn(css, themed.read_text())
+                self.assertNotIn('<link ', themed.read_text())
+        with self.assertRaisesRegex(renderer.MapError, "Unknown style"):
+            renderer.create(self.source, self.folder / "invalid.html", style="../other")
+
+    def test_note_icons_require_explicit_labels_and_escape_content(self):
+        rendered = renderer.render_md("- Important: Keep the limit.\n- Uncertain: <script>bad</script>\n- Ordinary point")
+        self.assertIn('<li class="note-important">Important:', rendered)
+        self.assertIn('<li class="note-uncertain">Uncertain: &lt;script&gt;', rendered)
+        self.assertIn('<li>Ordinary point</li>', rendered)
+        self.assertNotIn('<script>', rendered)
 
     def test_refuses_overwriting_until_explicit(self):
         output = self.folder / "overview.html"
@@ -65,7 +105,7 @@ class PresenterTests(unittest.TestCase):
 
     def test_unsupported_mermaid_does_not_silently_drop_routes(self):
         source = self.source.read_text()
-        source = source.replace("setup[\"Setup\"] -->|ready| prepare[\"Prepare Burrito\"]",
+        source = source.replace("setup[\"Setup\"] -->|ready| prepare[\"Prepare\"]",
                                 "setup --> prepare --> locate")
         self.source.write_text(source)
         with self.assertRaisesRegex(renderer.MapError, "one directed Mermaid edge"):

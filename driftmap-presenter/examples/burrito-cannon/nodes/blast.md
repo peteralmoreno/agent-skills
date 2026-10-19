@@ -7,12 +7,13 @@ produces:
   - delivery_status
 tool_hints:
   - delivery_simulator
+max_visits: 1
 ---
 
-# Simulated Burrito Blast
+# Simulated burrito blast
 
-Use **only the fictional delivery simulator** to dispatch the burrito.
+Use only an approved **fictional delivery simulator**. Record the resulting delivery ID and confirm arrival evidence.
 
-Save the simulated delivery reference and inspect the reported arrival status.
+Never operate a real cannon, infer arrival from launch alone, or retry a dispatch with uncertain status.
 
-Do not equate launch acceptance with delivery. If confirmation is missing or uncertain, pause rather than attempting another launch.
+If arrival is not confirmed, follow the **status uncertain** pause route.

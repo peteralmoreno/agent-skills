@@ -11,10 +11,10 @@ tool_hints:
   - address_validate
 ---
 
-# Locate the Customer
+# Locate the hungry human
 
-Use an authorized source to find verified coordinates, membership status, and notification preferences.
+Look up **fictional, authorized** customer data. Return verified coordinates, membership, and notification consent.
 
-A verified value of \`isMember: false\` is meaningful data, not a missing value.
+A verified `isMember: false` is a valid boolean, not an absent value. If the destination is unknown or ambiguous, pause rather than inventing coordinates.
 
-If the destination is ambiguous, pause and ask the customer to select one. Avoid storing raw addresses or phone numbers in history.
+Don't retain raw phone numbers or private addresses in Trail or shared reports.

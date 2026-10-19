@@ -6,6 +6,13 @@ DriftMaps is a portable Agent Skill for creating, inspecting, and running reusab
 
 ## Install
 
+Reading, editing, or executing a Map through an agent does not require Python or PyYAML. The agent may check the source directly. Only the optional Python CLI requires PyYAML; install it if you want to use those tools:
+
+```bash
+python3 -m pip install -r driftmaps/requirements.txt
+```
+
+
 Copy the whole `driftmaps/` directory into a Skill discovery location supported by your agent:
 
 ```powershell
@@ -37,6 +44,8 @@ python3 driftmaps/scripts/driftmaps.py start \
   --root /path/to/project \
   --input-file /path/to/inputs.yaml
 ```
+
+The input file is a YAML mapping; nested values and lists are supported. Duplicate keys and unsafe/custom tags are rejected.
 
 This writes a `trail.yaml` in a unique `.driftmaps/runs/<run-id>/` folder. It **does not** execute the Map. The agent performs authorized nodes and updates Trail according to the [execution rules](references/execution.md).
 
@@ -75,6 +84,18 @@ Only the authored `MAP.md` and `nodes/` are required to define a Map. A real run
 
 `pause` preserves resumable progress; `stop` records blocked or failed work; `complete` ends the graph without asserting business success. One node runs at a time. A global transition limit prevents infinite loops even across multi-node cycles; optional node visit limits apply locally.
 
+## Give up after ten attempts
+
+Put this in the YAML header of the node that may need retries:
+
+```yaml
+max_visits: 10
+```
+
+This allows ten total attempts, including the first. A retry must follow a declared Mermaid route. Success on attempt ten may continue normally; if attempt eleven would be needed, the agent stops the run, preserves the results, and explains the failure in the Handover. Pausing/resuming does not reset the count. Checking an existing operation's result is not a new attempt.
+
+The Map's existing `limits.max_transitions` remains the overall run limit; it can stop the run earlier. Allow enough transitions for the intended retries and any other nodes. Neither limit is a built-in runtime guard: the agent enforces the saved counts according to the execution guide.
+
 ## Optional human-facing HTML
 
 For a polished interactive HTML graph and clickable nodes, install the **separate** `driftmap-presenter` Skill. It renders a read-only snapshot **only when requested**, and never replaces the Map source. It is not a runtime dependency.
@@ -88,3 +109,5 @@ python3 -m unittest discover -s driftmaps/tests -v
 ```
 
 This validates scaffolding and structural parsing. It does not test model reasoning, authenticate evidence, or send messages/launch anything.
+
+Both Skills bundle an identical `scripts/map_format.py` so each remains independently installable. Keep the copies synchronized; the regression tests check their equality when both packages are present.

@@ -8,10 +8,8 @@ tool_hints:
   - order_read
 ---
 
-# Set Up the Mission
+# Set up the mission
 
-Read the customer order and confirm that this run is an **offline simulation**.
+Validate the order reference using fictional sample data. Confirm simulation mode, available input, and permitted operations.
 
-Confirm the requested burrito and the customer reference. Do not invent missing order details.
-
-If required input is missing, choose the pause route and ask for what is needed.
+Create shared working context. If the order cannot be found, choose the **missing order** pause route. Do not invent customer details.

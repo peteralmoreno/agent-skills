@@ -18,7 +18,7 @@ limits:
 ---
 ```
 
-For the portable v1 subset, accept simple YAML keys and the above nested limit; `name` matches directory slug, `version` is numeric semver, and `status` is `draft`, `active`, or `example`. `max_transitions` must be a finite positive integer.
+Headers use safe YAML mappings with unique string keys; comments, quoted values, block lists, and inline lists are supported. Custom tags and merge keys are rejected. `name` matches directory slug, `version` is numeric semver, and `status` is `draft`, `active`, or `example`. `max_transitions` must be a finite positive integer.
 
 ## Map graph
 
@@ -32,10 +32,11 @@ flowchart TD
 - Start at `setup`. It is a root and `nodes/setup.md` must exist.
 - Each executable node ID maps **exactly** to `nodes/<id>.md` with lowercase kebab-case IDs.
 - `pause`, `stop`, and `complete` are reserved terminal/control destinations without files.
-- Each line has one `-->` transition (possibly with `|outcome label|`). Use descriptive labels for multiple outcomes.
+- The `## Flowchart` section contains exactly one fenced `mermaid` block; put explanatory prose in other sections. Use `flowchart TD`, `TB`, or `LR`.
+- Each line has one `-->` transition (possibly with `|outcome label|`). A trailing semicolon is allowed, but multiple statements on a line are rejected. Use descriptive labels for multiple outcomes.
 - Explicit edges define the complete set of allowed next destinations. A chart is not permission to perform external actions.
 - Cycles are permitted; the map-wide budget is always finite. Use `max_visits` and explicit pause/stop options for expensive re-investigations.
-- The included validator supports basic Mermaid node labels, simple edges, basic style lines, and one edge per line. Unsupported graph syntax must be corrected or inspected manually; never silently simplify it.
+- The included validator supports basic Mermaid node labels, simple edges, basic style lines, and one edge per line. Unsupported graph syntax must be corrected before these tools can use it; never silently simplify it.
 
 ## Node header
 
@@ -52,7 +53,7 @@ max_visits: 2
 ---
 ```
 
-`requires` and `produces` are always present (empty lists allowed). These name values in Trail `context` or named items in Trail `artifacts`. `tool_hints` is optional and **nonbinding**. A name like `github_write`, `jira_update`, or `teams_alert` suggests a useful capability, not a hard requirement, specific integration, or authority. The executing agent may find an equivalent authorized approach. `max_visits` is optional, counts every entry to that node across pauses/resumes, and must be positive if provided.
+`requires` and `produces` are always present (empty lists allowed). These name values in Trail `context` or named items in Trail `artifacts`. `tool_hints` is optional and **nonbinding**. A name like `github_write`, `jira_update`, or `teams_alert` suggests a useful capability, not a hard requirement, specific integration, or authority. The executing agent may find an equivalent authorized approach. `max_visits` is optional, counts execution attempts across pauses/resumes (including interrupted attempts, but not reconciliation of an existing effect), and must be positive if provided. `max_visits: 10` means ten total attempts, not ten retries plus the first attempt. If another attempt would exceed it, stop the run and report the reason; success on the last allowed attempt still follows its normal route.
 
 ## Book-to-book output
 

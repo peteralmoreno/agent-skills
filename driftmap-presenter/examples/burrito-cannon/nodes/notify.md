@@ -9,10 +9,10 @@ tool_hints:
   - sms_simulator
 ---
 
-# Notify Customer
+# Notify the customer
 
-Only consider notification after delivery is confirmed.
+After simulated delivery confirmation, check recorded SMS consent.
 
-If the customer has consented, use the authorized **SMS simulator** and record its receipt. If opted out, record that the notification was skipped.
+If consent is valid, use a fictional SMS simulator and record its result. Otherwise record skipped, not sent. A missing simulator or uncertain result follows **notification unavailable**.
 
-Do not claim that any real SMS was sent.
+Do not send a real message or claim one was sent.

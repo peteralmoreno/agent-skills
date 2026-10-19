@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """DriftMaps: local scaffolding, map validation, inspection, Trail initialization.
-Stdlib only. This is not a workflow/AI runtime or a permissions validator.
+Uses PyYAML for safe YAML parsing. This is not a workflow/AI runtime or a permissions validator.
 """
 import argparse
 from datetime import datetime, timezone
@@ -12,19 +12,10 @@ import sys
 import uuid
 
 HERE = Path(__file__).resolve().parents[1]
-CONTROL = {"pause", "stop", "complete"}
-SLUG = re.compile(r"^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
-HEADER = re.compile(r"\A---[ \t]*\r?\n(.*?)\r?\n---\s*\r?\n", re.S)
-FENCE = re.compile(re.escape(chr(96) * 3) + r"mermaid[ \t]*\n(.*?)\n" +
-                   re.escape(chr(96) * 3), re.S | re.I)
-NODE = re.compile(r"^([a-z][a-z0-9-]*)(.*)$")
-SHAPES = [re.compile(x) for x in (
-    r'^\["([^"]+)"\]$', r'^\(\["([^"]+)"\]\)$',
-    r'^\("([^"]+)"\)$', r'^\[([^\]]+)\]$')]
-
-
-class MapError(Exception):
-    pass
+# Keep the bundled parser importable when this CLI is loaded by tests/tools.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from map_format import (CONTROL, SLUG, MapError, frontmatter, node_frontmatter,
+                        graph as parse_graph, read_yaml, yaml)
 
 
 def slug(value):
@@ -33,77 +24,9 @@ def slug(value):
     return value
 
 
-def frontmatter(file):
-    text = file.read_text(encoding="utf-8")
-    m = HEADER.match(text)
-    if not m:
-        raise MapError("Missing YAML frontmatter: " + str(file))
-    data, key = {}, None
-    for line in m.group(1).splitlines():
-        if not line.strip() or line.lstrip().startswith("#"):
-            continue
-        top = re.fullmatch(r"([a-z][a-z0-9_]*):\s*(.*)", line)
-        sub = re.fullmatch(r"  ([a-z][a-z0-9_]*):\s*(.*)", line)
-        item = re.fullmatch(r"  - (.+)", line)
-        if top:
-            key, val = top.groups()
-            val = val.strip()
-            data[key] = [] if val in ("", "[]") else ({} if val == "{}" else val.strip('"').strip("'"))
-        elif sub and key:
-            if not isinstance(data[key], dict):
-                data[key] = {}
-            data[key][sub.group(1)] = sub.group(2).strip().strip('"').strip("'")
-        elif item and key and isinstance(data.get(key), list):
-            data[key].append(item.group(1).strip().strip('"').strip("'"))
-        else:
-            raise MapError("Unsupported header line in " + str(file) + ": " + line)
-    return data, text[m.end():]
-
-
-def node(token):
-    match = NODE.fullmatch(token.strip().rstrip(";").strip())
-    if not match:
-        raise MapError("Unsupported graph node: " + token)
-    key, shape = match.groups()
-    slug(key)
-    if shape.strip() and not any(p.fullmatch(shape.strip()) for p in SHAPES):
-        raise MapError("Unsupported node shape: " + token)
-    return key
-
-
 def graph(body):
-    start = re.search(r"^## Flowchart\s*$", body, re.M)
-    if not start:
-        raise MapError("MAP.md requires ## Flowchart")
-    m = FENCE.search(body, start.end())
-    if not m:
-        raise MapError("Flowchart requires fenced Mermaid")
-    lines = m.group(1).splitlines()
-    if not lines or not re.fullmatch(r"\s*flowchart\s+(TD|TB|LR)\s*", lines[0]):
-        raise MapError("Expected flowchart TD, TB, or LR")
-    vertices, edges = set(), []
-    for raw in lines[1:]:
-        line = raw.strip()
-        if not line or line.startswith("%%") or re.match(r"^(classDef|class|style|linkStyle)\b", line):
-            continue
-        if "-->" not in line:
-            vertices.add(node(line))
-            continue
-        if line.count("-->") != 1:
-            raise MapError("One --> transition per line: " + line)
-        left, right = line.split("-->", 1)
-        src, right, label = node(left), right.strip(), ""
-        if right.startswith("|"):
-            pieces = right.split("|", 2)
-            if len(pieces) != 3 or not pieces[1].strip():
-                raise MapError("Bad edge label: " + line)
-            label, right = pieces[1].strip(), pieces[2].strip()
-        dst = node(right)
-        vertices.update((src, dst))
-        edges.append((src, label, dst))
-    if not edges or "setup" not in vertices:
-        raise MapError("Map needs a setup node and transitions")
-    return vertices, edges
+    names, edges, _ = parse_graph(body)
+    return set(names), [(e["from"], e["label"], e["to"]) for e in edges]
 
 
 def analyze(source):
@@ -120,8 +43,8 @@ def analyze(source):
     if props.get("status") not in ("draft", "active", "example"):
         problems.append("status must be draft, active, or example")
     limits = props.get("limits")
-    max_transitions = str(limits.get("max_transitions", "")) if isinstance(limits, dict) else ""
-    if not max_transitions.isdigit() or int(max_transitions) < 1:
+    max_transitions = limits.get("max_transitions") if isinstance(limits, dict) else None
+    if type(max_transitions) is not int or max_transitions < 1:
         problems.append("limits.max_transitions must be a positive integer")
     if not any(src == "setup" for src, _, _ in edges):
         problems.append("setup must have an outgoing edge")
@@ -145,16 +68,7 @@ def analyze(source):
             problems.append("missing node file: nodes/" + name + ".md")
             continue
         try:
-            meta, _ = frontmatter(file)
-            for field in ("requires", "produces"):
-                if not isinstance(meta.get(field), list):
-                    problems.append(name + ": " + field + " must be a YAML list")
-            if "tool_hints" in meta and not isinstance(meta["tool_hints"], list):
-                problems.append(name + ": tool_hints must be a list")
-            if "max_visits" in meta:
-                val = str(meta["max_visits"])
-                if not val.isdigit() or int(val) < 1:
-                    problems.append(name + ": invalid max_visits")
+            node_frontmatter(file)
         except MapError as exc:
             problems.append(str(exc))
         outs = [label for src, label, _ in edges if src == name]
@@ -167,7 +81,7 @@ def analyze(source):
             problems.append("unregistered node: " + file.name)
     return {"name": props.get("name"), "version": props.get("version"),
             "status": props.get("status"), "map": str(path),
-            "max_transitions": int(max_transitions) if max_transitions.isdigit() else None,
+            "max_transitions": max_transitions if type(max_transitions) is int else None,
             "nodes": sorted(verts), "edges": edges, "errors": problems}
 
 
@@ -246,21 +160,10 @@ def inputs(path):
     if not path:
         return "  {}\n"
     raw = Path(path).expanduser().read_text(encoding="utf-8")
-    seen, records = set(), []
-    for line in raw.splitlines():
-        if not line.strip() or line.lstrip().startswith("#"):
-            continue
-        m = re.fullmatch(r"([A-Za-z][A-Za-z0-9_]*):[ \t]+(.+?)\s*", line)
-        if not m:
-            raise MapError("Input YAML must use flat key: value entries")
-        key, value = m.groups()
-        if key in seen:
-            raise MapError("Duplicate input key: " + key)
-        seen.add(key)
-        if value.startswith("!") or "\x00" in value or "&" in value or "*" in value:
-            raise MapError("Unsupported input YAML: " + key)
-        records.append("  " + key + ": " + value + "\n")
-    return "".join(records) if records else "  {}\n"
+    data = read_yaml(raw)
+    # Re-serialize parsed values, never splice user-supplied YAML into the Trail.
+    rendered = yaml.safe_dump(data, sort_keys=False, allow_unicode=True)
+    return "".join("  " + line + "\n" for line in rendered.splitlines())
 
 
 def digest(path):

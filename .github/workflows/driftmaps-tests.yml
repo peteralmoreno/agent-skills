@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - "driftmaps/**"
+      - "driftmap-presenter/**"
       - ".github/workflows/driftmaps-tests.yml"
   push:
     branches:
       - main
     paths:
       - "driftmaps/**"
+      - "driftmap-presenter/**"
       - ".github/workflows/driftmaps-tests.yml"
 
 permissions:
@@ -24,6 +26,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - name: Install YAML support
+        run: python -m pip install -r driftmaps/requirements.txt
       - name: Compile tools and tests
         run: python -m compileall -q driftmaps/scripts driftmaps/tests
       - name: Run unit tests

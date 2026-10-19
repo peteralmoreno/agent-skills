@@ -16,6 +16,7 @@
     .side{display:flex;flex-direction:column}.detail{padding:22px;overflow:auto;max-height:760px}.detail .file{font-size:11px;font-family:ui-monospace,monospace;color:#ef9a91;background:#442b314f;border:1px solid #844d5488;border-radius:7px;padding:6px 9px;display:inline-block}.detail h2{font-size:25px;line-height:1.2;margin:18px 0 9px;letter-spacing:-.035em}.detail p{color:#c9ced8}.detail h3,.detail h4,.detail h5{font-size:14px;margin:24px 0 5px}.detail li{color:#c9ced8;margin:5px 0}.detail ul{padding-left:19px}.detail pre{overflow:auto;border:1px solid #3b414f;background:#0c1119;border-radius:8px;padding:10px;color:#ccd7e9}.micro{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:#99a4b6;margin:22px 0 10px;font-weight:750}.pills{display:flex;flex-wrap:wrap;gap:6px}.pill{font-family:ui-monospace,monospace;font-size:11px;background:#242b36;border:1px solid #384455;border-radius:7px;padding:4px 7px;color:#d4deeb}.route-btn{display:block;width:100%;text-align:left;border:1px solid #3b4352;border-radius:10px;background:#1f2630;padding:10px 12px;color:var(--text);margin:7px 0;cursor:pointer}.route-btn:hover,.route-btn:focus-visible{outline:none;border-color:#f18175;background:#2b2630}.route-btn b{display:block;font-size:12px}.route-btn span{font-size:12px;color:var(--muted)}.route-box{padding-top:16px;border-top:1px solid var(--line);margin-top:20px}
     .reading{border:1px solid var(--line);background:#11151cbb;border-radius:16px;margin:8px 0 55px;padding:24px 28px}.reading h2{margin:0 0 10px;font-size:20px;letter-spacing:-.02em}.reading .content{columns:2;column-gap:35px;color:#c3cbd7}.reading p{margin-top:0}.reading h3{break-after:avoid;color:#f2f2f5;font-size:15px}.reading li{break-inside:avoid}.reading code{font:12px ui-monospace,monospace}.reading pre{white-space:pre-wrap}.foot{border-top:1px solid #ffffff12;padding:23px 0 32px;color:#8f9baa;font-size:12px;display:flex;justify-content:space-between;gap:12px}
     @media(max-width:990px){.layout{grid-template-columns:1fr}.detail{max-height:none}.reading .content{columns:1}}@media(max-width:640px){.wrap{padding:0 15px}.hero{padding:36px 0 25px}.lead{font-size:15px}.p-head{align-items:flex-start;flex-direction:column}.graph-container{max-height:590px}.reading{padding:20px}.top .tag{display:none}.foot{display:block}.stats{gap:7px}.stat{min-width:95px;padding:10px 12px}.stat strong{font-size:17px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+    .node .limit{fill:#ffd39a;font-size:11px;font-weight:850}.attempt-limit{display:flex;align-items:center;gap:16px;margin:18px 0;padding:16px;border:2px solid #f5b969;border-radius:12px;background:#392b1d;color:#ffe2bb}.attempt-limit strong{font-size:44px;line-height:1;font-weight:850}.attempt-limit b{display:block;font-size:14px}.attempt-limit span{display:block;font-size:12px}.attempt-limit small{display:block;margin-top:5px;font-size:11px;color:#ebcba3}
     @media print{body{background:white;color:#12161f}.top,.actions,.route-box{display:none!important}.layout{display:block}.panel,.reading{box-shadow:none;border:1px solid #ccc;background:#fff}.graph-container{max-height:none}.graph{min-width:0}.detail{max-height:none}.reading .content{columns:1}.hero h1,.detail h2{color:#222}}
   </style>
 </head>
@@ -134,11 +135,11 @@ function draw() {
     if(known.has(n.id))classes.push("visited");
     if(active===n.id)classes.push("current");
     if(selected===n.id)classes.push("selected");
-    const group=el("g",{"class":classes.join(" "),transform:"translate("+p.x+" "+p.y+")",tabindex:"0",role:"button","aria-label":"Inspect "+n.label},svg);
+    const group=el("g",{"class":classes.join(" "),transform:"translate("+p.x+" "+p.y+")",tabindex:"0",role:"button","aria-label":"Inspect "+n.label+(n.max_visits?", maximum "+n.max_visits+" attempts":"")},svg);
     el("rect",{x:-99,y:-34,width:198,height:68,rx:12},group);
     const display=n.label.length>26?n.label.slice(0,25)+"…":n.label;
     el("text",{x:0,y:-5,"class":"main"},group,display);
-    el("text",{x:0,y:17,"class":"sub"},group,n.control?"CONTROL":n.id+".md");
+    el("text",{x:0,y:17,"class":n.max_visits?"limit":"sub"},group,n.control?"CONTROL":n.max_visits?"MAX "+n.max_visits+" ATTEMPT"+(n.max_visits===1?"":"S"):n.id+".md");
     group.addEventListener("click",()=>select(n.id));
     group.addEventListener("keydown",evt=>{if(evt.key==="Enter"||evt.key===" "){evt.preventDefault();select(n.id);}});
   }
@@ -151,6 +152,7 @@ function select(id){
   if(n.control){
     body+='<p>This is a control destination. It does not have an executable node file.</p>';
   }else{
+    if(n.max_visits) body+='<div class="attempt-limit"><strong>'+safeText(n.max_visits)+'</strong><div><b>Maximum total attempts</b><span>First attempt included. Stop if another attempt would exceed this limit.</span><small>Execution rule · preview does not count attempts</small></div></div>';
     body+=pills("Requires",n.requires)+pills("Produces",n.produces)+pills("Tool hints · optional",n.tool_hints);
     body+='<div class="micro">Instructions</div>'+n.html;
   }

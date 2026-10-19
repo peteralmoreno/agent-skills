@@ -100,8 +100,8 @@ class DriftMapsTests(unittest.TestCase):
 
     def test_input_validation_occurs_before_folder_creation(self):
         inp = self.root / "bad-input.yaml"
-        inp.write_text("nested:\n  key: value\n", encoding="utf-8")
-        with self.assertRaisesRegex(core.MapError, "flat key"):
+        inp.write_text("value: [unterminated\n", encoding="utf-8")
+        with self.assertRaisesRegex(core.MapError, "Invalid YAML"):
             core.start(type("Args", (), {
                 "map": str(self.source), "root": str(self.root),
                 "input_file": str(inp), "allow_draft": False
