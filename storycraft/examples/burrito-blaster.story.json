@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "eyebrow": "Burrito Blaster · fictional process demo",
+  "title": "Lunch, at the speed of imagination.",
+  "summary": "Meet Burrito Blaster: an entirely fictional delivery simulation that prepares an order, checks its destination, simulates a burrito launch, and records the outcome. All the excitement of a mission-control dashboard, with none of the real-world projectiles.",
+  "source_note": "Fictional demonstration. No real orders, coordinates, projectiles, or messages are used.",
+  "hero_label": "Mission control · demo sequence",
+  "panel_title": "Burrito Cannon Blaster",
+  "panel_body": "An order goes in. A clearly labeled simulated result comes out. Every branch remains visible, even when the mission must pause.",
+  "hero_symbol": "burrito",
+  "badge": "Demo only",
+  "highlights": [
+    {
+      "eyebrow": "01 · Prepare",
+      "title": "Wrap with purpose",
+      "description": "Check the imaginary order and pack a fictional burrito before anything moves."
+    },
+    {
+      "eyebrow": "02 · Navigate",
+      "title": "Know the destination",
+      "description": "Only a destination verified in the simulated data can proceed to launch."
+    },
+    {
+      "eyebrow": "03 · Report",
+      "title": "Never fake the landing",
+      "description": "Confirm or pause the mission based on the simulated outcome, then record the result."
+    }
+  ],
+  "flow": {
+    "title": "The extraordinary journey of an ordinary burrito",
+    "description": "Follow the main example path, or select a declared detour to see what happens when an order, ingredient, destination, landing, or notification cannot be confirmed. This is a clickable explanation, not a real launcher.",
+    "nodes": [
+      {
+        "id": "setup",
+        "title": "Check the order",
+        "summary": "Is there enough fictional order data to start?",
+        "detail": "Validate the imaginary order reference and customer details. Without a usable order, halt the simulation at Pause rather than pretending one exists."
+      },
+      {
+        "id": "prepare",
+        "title": "Wrap the burrito",
+        "summary": "Prepare the fictional meal and check ingredients.",
+        "detail": "Assemble the requested pretend burrito. If an ingredient requirement cannot be met, use Stop. Successful preparation yields a wrapped demo burrito reference."
+      },
+      {
+        "id": "locate",
+        "title": "Verify destination",
+        "summary": "Resolve the destination using simulated customer data.",
+        "detail": "Read a mock address and fictional coordinates. Only verified simulated coordinates unlock the next step; unknown or ambiguous destinations lead to Pause."
+      },
+      {
+        "id": "blast",
+        "title": "Simulate the launch",
+        "summary": "Pretend to fire the cannon; record an imagined landing.",
+        "detail": "Run a simulation of burrito delivery. No mechanical device is controlled and nothing is launched. If the fictional landing cannot be confirmed, route to Pause."
+      },
+      {
+        "id": "notify",
+        "title": "Record notification",
+        "summary": "Simulate a message or explicitly skip it.",
+        "detail": "Record the fictional notification outcome; do not send an actual SMS. If the simulated messaging path is unavailable, route to Pause."
+      },
+      {
+        "id": "complete",
+        "title": "Complete the demo",
+        "summary": "Return the simulated order, delivery, and notification outcomes.",
+        "detail": "The example finishes with a burrito reference, a verified simulated destination, delivery result, and notification result. Completion reflects only the fictional demonstration."
+      },
+      {
+        "id": "pause",
+        "title": "Pause for clarity",
+        "summary": "Stop progressing until uncertain inputs or results are resolved.",
+        "detail": "Preserve the partial demo result and explain which fictional input, destination, landing, or notification remains uncertain. The preview does not restart the mission on its own."
+      },
+      {
+        "id": "stop",
+        "title": "Stop the attempt",
+        "summary": "Record a terminal issue with the pretend order.",
+        "detail": "End this simulated delivery attempt if an ingredient requirement fails. Record what happened instead of pretending the burrito was prepared."
+      }
+    ],
+    "edges": [
+      {
+        "from": "setup",
+        "to": "prepare",
+        "label": "ready"
+      },
+      {
+        "from": "setup",
+        "to": "pause",
+        "label": "missing order"
+      },
+      {
+        "from": "prepare",
+        "to": "locate",
+        "label": "wrapped"
+      },
+      {
+        "from": "prepare",
+        "to": "stop",
+        "label": "ingredient issue"
+      },
+      {
+        "from": "locate",
+        "to": "blast",
+        "label": "verified coordinates"
+      },
+      {
+        "from": "locate",
+        "to": "pause",
+        "label": "unknown address"
+      },
+      {
+        "from": "blast",
+        "to": "notify",
+        "label": "delivery confirmed"
+      },
+      {
+        "from": "blast",
+        "to": "pause",
+        "label": "status uncertain"
+      },
+      {
+        "from": "notify",
+        "to": "complete",
+        "label": "sent or skipped"
+      },
+      {
+        "from": "notify",
+        "to": "pause",
+        "label": "notification unavailable"
+      }
+    ],
+    "primary_path": [
+      "setup",
+      "prepare",
+      "locate",
+      "blast",
+      "notify",
+      "complete"
+    ]
+  },
+  "chapters": [
+    {
+      "eyebrow": "The premise",
+      "title": "A lunch break with mission control",
+      "body": "Burrito Blaster turns a very ordinary task into an intentionally ridiculous systems demo. The storytelling is playful; the underlying sequence and decisions stay exact.",
+      "points": [
+        "Start with an order and a prepared burrito",
+        "Verify the fictional destination before any simulated launch",
+        "Show both success and uncertainty honestly"
+      ]
+    },
+    {
+      "eyebrow": "The safety boundary",
+      "title": "There is no actual cannon",
+      "body": "Every operational detail is simulated. This is a human-readable walkthrough—not a dispatch system, customer lookup, SMS sender, or physical launcher.",
+      "points": [
+        "Never represent sample coordinates as a real location",
+        "Never imply a real notification was delivered",
+        "Never hide pause or stop branches"
+      ]
+    },
+    {
+      "eyebrow": "The takeaway",
+      "title": "Every path should tell the truth",
+      "body": "Good explanations have visible conditions and honest endings. The same story can be dressed as polished product engineering, a cheerful retro game, or an ornate fantasy briefing without changing the facts.",
+      "points": [
+        "Primary route: six stages, from order check to completion",
+        "Alternate routes: pause or stop with a visible reason",
+        "Presentation controls explore the example; they do not execute it"
+      ]
+    }
+  ],
+  "sources": [],
+  "callouts": [
+    {
+      "kind": "important",
+      "title": "Only a preview—not a real launch",
+      "text": "Every order, destination, launch, and notification in this example is simulated."
+    },
+    {
+      "kind": "uncertain",
+      "title": "What if the destination is unknown?",
+      "text": "The declared route pauses rather than pretending an address or delivery result was confirmed."
+    }
+  ]
+}

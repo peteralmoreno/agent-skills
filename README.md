@@ -30,6 +30,19 @@ python3 driftmap-presenter/scripts/render_map.py path/to/my-map/MAP.md
 
 See the [Skill guide](driftmap-presenter/README.md), [human-view design notes](driftmap-presenter/references/design.md), and [Burrito Cannon example](driftmap-presenter/examples/burrito-cannon/MAP.md).
 
+### Storycraft
+
+[`storycraft`](storycraft/) turns rough HTML, Markdown, briefs, and notes into polished, **self-contained interactive HTML stories**. It preserves source claims, links, transitions, and alternate routes while offering three [Drift Map Presenter-aligned visual styles](storycraft/references/style-systems.md): coral-red **Dark**, playful **Morrito** with stars and pipes, and fantasy **Gilded** with a yellow riding bird.
+
+It includes an authored-story renderer, a fictional Burrito Blaster example, offline structural audits, browser QA, and [custom asset import guidance](storycraft/references/custom-assets.md) for approved local mascots, sprites, icons, and backgrounds. Storycraft is independent of Drift Maps and never executes the processes it illustrates.
+
+```bash
+python3 storycraft/scripts/render_story.py storycraft/examples/burrito-blaster.story.json --style all --out-dir ./scratch/storycraft/
+python3 -m unittest discover -s storycraft/tests -v
+```
+
+See the [Storycraft guide](storycraft/README.md) and [Agent Skill instructions](storycraft/SKILL.md).
+
 ### Q-C-Code
 
 [`qccode`](qccode/) adapts the QRSPI workflow for Claude Code:
